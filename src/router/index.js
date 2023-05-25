@@ -29,6 +29,11 @@ const routes = [
       name: "Home",
       component: Home,
    },
+   {
+      path: "/convert",
+      name: "convert",
+      component: () => import("@/views/convert"),
+   },
    
    
 ];
