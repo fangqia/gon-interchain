@@ -38,7 +38,7 @@ import { getMyBalance, issueDenomAndMint, quiryTx, mintNFT } from "/src/keplr/ir
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
-    name: 'CreateNFT',
+    name: 'Create',
     inheritAttrs: false,
     components: { Loading },
     props: {

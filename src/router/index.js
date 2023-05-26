@@ -35,9 +35,9 @@ const routes = [
       component: () => import("@/views/convert"),
    },
    {
-      path: "/createNFT",
-      name: "createNFT",
-      component: () => import("@/views/createNFT"),
+      path: "/chainCross",
+      name: "chainCross",
+      component: () => import("@/views/chainCross"),
    },
 ];
 

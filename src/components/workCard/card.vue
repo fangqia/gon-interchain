@@ -47,7 +47,7 @@ export default {
       this.setHeight()
     },
     imgClick() {
-      this.$router.push({ name: 'cardDetail', query: { nftAddress: this.NFTInfo.nftAddress, nftId: this.NFTInfo.nftId, owner: this.NFTInfo.owner } })
+      // this.$router.push({ name: 'cardDetail', query: { nftAddress: this.NFTInfo.nftAddress, nftId: this.NFTInfo.nftId, owner: this.NFTInfo.owner } })
     },
   },
 };
