@@ -3,7 +3,7 @@
         <div class="create d-flex flex-row justify-space-center align-center">
             <img class="image" :src="NFTInfo.imgUrl">
         </div>
-        <div style="height:150px; overflow: scroll; width: 390px;">
+        <div style="height:150px; overflow: scroll; width: 390px">
             <div class="name" style="padding: 10px;">
                 {{ NFTInfo.name }}
             </div>
@@ -24,11 +24,6 @@
             </div>
         </div>
         <div class="bottom">
-            <button class="withdrawBtn" @click="submitButton">
-                <div>
-                    Withdraw to Uptick-EVM
-                </div>
-            </button>
             <button class="crossBtn" @click="submitButton">
                 <div>
                     Cross-chain transfer to IRISnet
@@ -136,7 +131,6 @@ export default {
 }
 
 .name {
-    // width: 90%;
     font-family: AvenirNext-Bold;
     font-size: 15px;
     font-weight: normal;
@@ -159,83 +153,68 @@ export default {
     text-align: left;
 }
 
+
 .tips {
     width: 390px;
-
     .line {
+        width: 100%;
         margin: 10px 0px 10px 0px;
-        width: 96%;
         height: 1px;
         border: solid 1px #8c055e;
     }
 
     .tipsTitle {
         width: 100%;
+        // height: 86px;
+        margin: 10px 0px 10px 0px;
         font-family: AvenirNext-Bold;
         font-size: 13px;
         font-weight: normal;
         font-stretch: normal;
+        // line-height: 50px;
         letter-spacing: 0px;
         color: #ffffff;
     }
 
     .tips1 {
         width: 100%;
-        font-family: AvenirNext-Regular;
-        font-size: 13px;
-        font-weight: normal;
-        letter-spacing: 0px;
-        color: #ffffff;
-        padding: 10px 0px 10px 0px;
-    }
-
-
-
-    .tips2 {
-        width: 100%;
+        margin: 10px 0px 10px 0px;
         font-family: AvenirNext-Bold;
         font-size: 13px;
         font-weight: normal;
         letter-spacing: 0px;
         color: #ed0091;
-        padding: 10px 0px 10px 0px;
+        text-align: left;
+
+        // padding: 10px 0px 10px 0px;
+    }
+
+    .tips2 {
+        width: 100%;
+        font-family: AvenirNext-Regular;
+        font-size: 13px;
+        font-weight: normal;
+        letter-spacing: 0px;
+        color: #ffffff;
+        padding-bottom: 10px;
     }
 
 }
 
-
 .bottom {
-    display: flex;
     width: 390px;
+    display: flex;
+    width: 100%;
     justify-content: space-around;
 }
 
-.withdrawBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 151px;
-    height: 50px;
-    border-radius: 25px;
-    border: solid 1px #ed0091;
-
-    div {
-        width: 91px;
-        font-family: AvenirNext-Bold;
-        font-size: 15px;
-        font-weight: normal;
-        font-stretch: normal;
-        letter-spacing: 0px;
-        color: #ffffff;
-    }
-}
 
 
 .crossBtn {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 226px;
+    width: 390px;
     height: 50px;
     background-image: linear-gradient(90deg,
             #ed0091 0%,

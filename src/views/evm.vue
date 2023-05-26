@@ -11,28 +11,29 @@
       <div class="left">
         <div class="top d-flex flex-row justify-space-between align-center">
           <div class="d-flex flex-row justify-space-between align-center">
-            <div class="leftTitle">
-              Cross-chain transfer
+            <div class="leftButton" style="margin-right: 10px;" @click="switchButton">
+              Switch to Uptick-COSMOS >
             </div>
-            <div class="leftButton" style="margin-right: 10px;">
-              Switch to Uptick-EVM >
+            <div class="leftButton"  @click="crossButton">
+              Cross-chain record
             </div>
           </div>
-          <!-- <div class="create">
+          <div class="create" @click="showCreate">
             Create
-          </div> -->
+          </div>
         </div>
         <div class="list">
           <div class="Cardlist d-flex align-content-start flex-wrap" v-if="list.length > 0">
             <div class="listitem" v-for="(item, index) in list" :key="index">
-              <Card :selectedId="selectItem.id" :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" @click:item="onClickItem"/>
+              <Card :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" @click:item="onClickItem" />
             </div>
           </div>
           <div v-else class="empty">This is empty, please create NFTs !</div>
         </div>
       </div>
       <div class="right">
-        <CorssNFT :NFTInfo="selectItem"></CorssNFT>
+        <CreateNFT v-if="isShowCreate"></CreateNFT>
+        <ConverNFT v-if="!isShowCreate" :NFTInfo="selectItem"></ConverNFT>
       </div>
     </div>
 
@@ -42,21 +43,22 @@
 <script>
 
 import { uploadImage, getNftImg } from "/src/api/image"
-import CorssNFT from "./corssNFT";
+import CreateNFT from "./createNFT";
+import ConverNFT from "./converNFT";
 import Card from "../components/workCard/card.vue";
 import { getMyCardList, createInfo, getUserInfo, updateUser } from "@/api/home";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'convert',
-  components: { CorssNFT, Card },
+  components: { CreateNFT, ConverNFT, Card },
   data() {
     return {
       uploadedImageHash: '',//默认的图片,
       list: [],
       isShowLoading: false,
-      selectItem: {},
-      cardClass: "listitem"
+      isShowCreate: true,
+      selectItem: {}
     }
 
   },
@@ -68,9 +70,21 @@ export default {
     await this.getMyList("origin_1170-1");
   },
   methods: {
+    switchButton() {
+      // this.$router.push({ name: "chainCross" });
+      this.$router.push({ name: "cosmos" });
+
+    },
+    crossButton() {
+      
+    },
     onClickItem(item) {
       console.log(item.name)
+      this.isShowCreate = false
       this.selectItem = item
+    },
+    showCreate() {
+      this.isShowCreate = true
     },
     async getMyList(selectChain) {
       debugger
@@ -90,7 +104,12 @@ export default {
         params
       );
       this.list = listInfo.data.list;
-      this.selectItem = this.list[0]
+      if (this.list.length > 0) {
+        this.isShowCreate = false
+        this.selectItem = this.list[0]
+      } else {
+        this.isShowCreate = true
+      }
       this.isShowLoading = false;
       console.log("ssss", this.list);
     },
@@ -193,19 +212,6 @@ export default {
         color: #ffffff;
       }
 
-      .leftTitle {
-        // width: 203px;
-        // height: 18px;
-        font-family: AvenirNext-Regular;
-        font-size: 23px;
-        font-weight: normal;
-        font-stretch: normal;
-        // line-height: 70px;
-        letter-spacing: 0px;
-        color: #ffffff;
-        padding-right: 20px;
-      }
-
       .create {
         margin-right: 30px;
         display: flex;
@@ -239,7 +245,6 @@ export default {
         // height: 125px;
         padding: 10px;
       }
-
 
     }
 

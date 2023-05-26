@@ -30,14 +30,14 @@ const routes = [
       component: Home,
    },
    {
-      path: "/convert",
-      name: "convert",
-      component: () => import("@/views/convert"),
+      path: "/evm",
+      name: "evm",
+      component: () => import("@/views/evm"),
    },
    {
-      path: "/chainCross",
-      name: "chainCross",
-      component: () => import("@/views/chainCross"),
+      path: "/cosmos",
+      name: "cosmos",
+      component: () => import("@/views/cosmos"),
    },
 ];
 

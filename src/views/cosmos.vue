@@ -11,29 +11,28 @@
       <div class="left">
         <div class="top d-flex flex-row justify-space-between align-center">
           <div class="d-flex flex-row justify-space-between align-center">
-            <div class="leftButton" style="margin-right: 10px;">
-              Switch to Uptick-COSMOS >
+            <div class="leftTitle">
+              Cross-chain transfer
             </div>
-            <div class="leftButton">
-              Cross-chain record
+            <div class="leftButton" style="margin-right: 10px;" @click="switchButton">
+              Switch to Uptick-EVM >
             </div>
           </div>
-          <div class="create" @click="showCreate">
+          <!-- <div class="create">
             Create
-          </div>
+          </div> -->
         </div>
         <div class="list">
           <div class="Cardlist d-flex align-content-start flex-wrap" v-if="list.length > 0">
             <div class="listitem" v-for="(item, index) in list" :key="index">
-              <Card :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" @click:item="onClickItem" />
+              <Card :selectedId="selectItem.id" :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" @click:item="onClickItem"/>
             </div>
           </div>
           <div v-else class="empty">This is empty, please create NFTs !</div>
         </div>
       </div>
       <div class="right">
-        <CreateNFT v-if="isShowCreate"></CreateNFT>
-        <CorssNFT v-if="!isShowCreate" :NFTInfo="selectItem"></CorssNFT>
+        <CorssNFT :NFTInfo="selectItem"></CorssNFT>
       </div>
     </div>
 
@@ -43,7 +42,6 @@
 <script>
 
 import { uploadImage, getNftImg } from "/src/api/image"
-import CreateNFT from "./createNFT";
 import CorssNFT from "./corssNFT";
 import Card from "../components/workCard/card.vue";
 import { getMyCardList, createInfo, getUserInfo, updateUser } from "@/api/home";
@@ -51,14 +49,14 @@ import { getMyCardList, createInfo, getUserInfo, updateUser } from "@/api/home";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'convert',
-  components: { CreateNFT, CorssNFT, Card },
+  components: { CorssNFT, Card },
   data() {
     return {
       uploadedImageHash: '',//默认的图片,
       list: [],
       isShowLoading: false,
-      isShowCreate: true,
-      selectItem: {}
+      selectItem: {},
+      cardClass: "listitem"
     }
 
   },
@@ -70,13 +68,13 @@ export default {
     await this.getMyList("origin_1170-1");
   },
   methods: {
+    switchButton() {
+      this.$router.push({ name: "evm" });
+
+    },
     onClickItem(item) {
       console.log(item.name)
-      this.isShowCreate = false
       this.selectItem = item
-    },
-    showCreate() {
-      this.isShowCreate = true
     },
     async getMyList(selectChain) {
       debugger
@@ -96,12 +94,7 @@ export default {
         params
       );
       this.list = listInfo.data.list;
-      if (this.list.length > 0) {
-        this.isShowCreate = false
-        this.selectItem = this.list[0]
-      } else {
-        this.isShowCreate = true
-      }
+      this.selectItem = this.list[0]
       this.isShowLoading = false;
       console.log("ssss", this.list);
     },
@@ -204,6 +197,19 @@ export default {
         color: #ffffff;
       }
 
+      .leftTitle {
+        // width: 203px;
+        // height: 18px;
+        font-family: AvenirNext-Regular;
+        font-size: 23px;
+        font-weight: normal;
+        font-stretch: normal;
+        // line-height: 70px;
+        letter-spacing: 0px;
+        color: #ffffff;
+        padding-right: 20px;
+      }
+
       .create {
         margin-right: 30px;
         display: flex;
@@ -237,6 +243,7 @@ export default {
         // height: 125px;
         padding: 10px;
       }
+
 
     }
 

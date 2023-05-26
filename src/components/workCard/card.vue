@@ -61,7 +61,7 @@ export default {
 
 
   .mainImg {
-    transition: all .5s ease .1s;
+    transition: all .1s ease .1s;
     object-fit: cover;
     // height: 125px;
   }
