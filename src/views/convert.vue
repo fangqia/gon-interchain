@@ -26,8 +26,6 @@
           <div class="Cardlist d-flex align-content-start flex-wrap" v-if="list.length > 0">
             <div class="listitem" v-for="(item, index) in list" :key="index">
               <Card :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" />
-              <!-- <img :src="item.imgUrl" style="width: 100%;" />
-              <div class="title">{{ item.name }}</div> -->
             </div>
           </div>
           <div v-else class="empty">This is empty, please create NFTs !</div>
@@ -166,7 +164,6 @@ export default {
     height: 31px;
     border-radius: 15px;
     border: solid 1px #ed0091;
-    opacity: 0.5;
     font-family: AvenirNext-Bold;
     font-size: 12px;
     font-weight: normal;
@@ -242,7 +239,8 @@ export default {
       overflow-y: auto;
 
       .listitem {
-        width: calc(20% - 20px);
+        width: calc(20% - 10px);
+        // height: 125px;
         padding: 10px;
       }
  
