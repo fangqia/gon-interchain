@@ -25,7 +25,7 @@
         <div class="list">
           <div class="Cardlist d-flex align-content-start flex-wrap" v-if="list.length > 0">
             <div class="listitem" v-for="(item, index) in list" :key="index">
-              <Card :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" />
+              <Card :selectedId="selectItem.id" :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" @click:item="onClickItem"/>
             </div>
           </div>
           <div v-else class="empty">This is empty, please create NFTs !</div>
@@ -55,7 +55,8 @@ export default {
       uploadedImageHash: '',//默认的图片,
       list: [],
       isShowLoading: false,
-      selectItem: {}
+      selectItem: {},
+      cardClass: "listitem"
     }
 
   },
@@ -67,7 +68,10 @@ export default {
     await this.getMyList("origin_1170-1");
   },
   methods: {
-
+    onClickItem(item) {
+      console.log(item.name)
+      this.selectItem = item
+    },
     async getMyList(selectChain) {
       debugger
       console.log(selectChain)
@@ -85,28 +89,7 @@ export default {
       let listInfo = await getMyCardList(
         params
       );
-      // this.list = listInfo.data.list;
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-
-      // this.list = [this.list[1]]
+      this.list = listInfo.data.list;
       this.selectItem = this.list[0]
       this.isShowLoading = false;
       console.log("ssss", this.list);
@@ -256,6 +239,7 @@ export default {
         // height: 125px;
         padding: 10px;
       }
+
 
     }
 

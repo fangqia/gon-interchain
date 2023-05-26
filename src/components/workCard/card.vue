@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="work d-flex  flex-column">
-      <img class="mainImg" :src="imgUrl" @click="imgClick" style="cursor: pointer;border-radius: 5px 5px 5px 5px;"
-        :style="{ height: height + 'px' }">
+      <img class="mainImg" :class="{ 'selected': selectedId === NFTInfo.id }" :src="imgUrl" @click="imgClick"
+        style="cursor: pointer;border-radius: 5px 5px 5px 5px;" :style="{ height: height + 'px' }">
     </div>
     <div class="content">
       <div class="name">{{ name }}</div>
@@ -20,12 +20,14 @@ export default {
   props: {
     imgUrl: String,
     name: String,
+    selectedId: Number,
     NFTInfo: Object
 
   },
   data() {
     return {
-      height: 125
+      height: 125,
+      isActive: true
     }
 
   },
@@ -47,7 +49,7 @@ export default {
       this.setHeight()
     },
     imgClick() {
-      // this.$router.push({ name: 'cardDetail', query: { nftAddress: this.NFTInfo.nftAddress, nftId: this.NFTInfo.nftId, owner: this.NFTInfo.owner } })
+      this.$emit('click:item', this.NFTInfo)
     },
   },
 };
@@ -57,14 +59,24 @@ export default {
 .work {
   overflow: hidden;
 
+
   .mainImg {
     transition: all .5s ease .1s;
     object-fit: cover;
     // height: 125px;
   }
 
+
+  .mainImg.selected {
+    background-color: green;
+    background-color: #ed0091;
+    border-radius: 5px;
+    border: solid 2px #ea0091;
+    opacity: 0.8;
+  }
+
   .mainImg:hover {
-    transform: scale(1.1);
+    // transform: scale(1.1);
     // transform: translate(0px, 0px) scale(2) rotate(0deg);  
   }
 }

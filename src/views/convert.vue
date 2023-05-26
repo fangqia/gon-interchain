@@ -18,21 +18,22 @@
               Cross-chain record
             </div>
           </div>
-          <div class="create">
+          <div class="create" @click="showCreate">
             Create
           </div>
         </div>
         <div class="list">
           <div class="Cardlist d-flex align-content-start flex-wrap" v-if="list.length > 0">
             <div class="listitem" v-for="(item, index) in list" :key="index">
-              <Card :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" />
+              <Card :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" @click:item="onClickItem" />
             </div>
           </div>
           <div v-else class="empty">This is empty, please create NFTs !</div>
         </div>
       </div>
       <div class="right">
-        <CreateNFT></CreateNFT>
+        <CreateNFT v-if="isShowCreate"></CreateNFT>
+        <CorssNFT v-if="!isShowCreate" :NFTInfo="selectItem"></CorssNFT>
       </div>
     </div>
 
@@ -43,19 +44,21 @@
 
 import { uploadImage, getNftImg } from "/src/api/image"
 import CreateNFT from "./createNFT";
+import CorssNFT from "./corssNFT";
 import Card from "../components/workCard/card.vue";
 import { getMyCardList, createInfo, getUserInfo, updateUser } from "@/api/home";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'convert',
-  components: { CreateNFT, Card },
+  components: { CreateNFT, CorssNFT, Card },
   data() {
     return {
       uploadedImageHash: '',//默认的图片,
       list: [],
-      isShowLoading: false
-
+      isShowLoading: false,
+      isShowCreate: true,
+      selectItem: {}
     }
 
   },
@@ -67,7 +70,14 @@ export default {
     await this.getMyList("origin_1170-1");
   },
   methods: {
-
+    onClickItem(item) {
+      console.log(item.name)
+      this.isShowCreate = false
+      this.selectItem = item
+    },
+    showCreate() {
+      this.isShowCreate = true
+    },
     async getMyList(selectChain) {
       debugger
       console.log(selectChain)
@@ -85,29 +95,13 @@ export default {
       let listInfo = await getMyCardList(
         params
       );
-      // this.list = listInfo.data.list;
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-
-      // this.list = [this.list[1]]
-
+      this.list = listInfo.data.list;
+      if (this.list.length > 0) {
+        this.isShowCreate = false
+        this.selectItem = this.list[0]
+      } else {
+        this.isShowCreate = true
+      }
       this.isShowLoading = false;
       console.log("ssss", this.list);
     },
@@ -243,7 +237,7 @@ export default {
         // height: 125px;
         padding: 10px;
       }
- 
+
     }
 
     .empty {
