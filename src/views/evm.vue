@@ -14,7 +14,7 @@
             <div class="leftButton" style="margin-right: 10px;" @click="switchButton">
               Switch to Uptick-COSMOS >
             </div>
-            <div class="leftButton"  @click="crossButton">
+            <div class="leftButton" @click="crossButton">
               Cross-chain record
             </div>
           </div>
@@ -35,6 +35,9 @@
         <CreateNFT v-if="isShowCreate"></CreateNFT>
         <ConverNFT v-if="!isShowCreate" :NFTInfo="selectItem"></ConverNFT>
       </div>
+      <!-- <button @click="showPopup">弹出窗口</button> -->
+      <popup :visible.sync="popupVisible">
+      </popup>
     </div>
 
   </div>
@@ -47,18 +50,21 @@ import CreateNFT from "./createNFT";
 import ConverNFT from "./converNFT";
 import Card from "../components/workCard/card.vue";
 import { getMyCardList, createInfo, getUserInfo, updateUser } from "@/api/home";
+import Popup from './popup';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'convert',
-  components: { CreateNFT, ConverNFT, Card },
+  components: { CreateNFT, ConverNFT, Card, Popup },
   data() {
     return {
       uploadedImageHash: '',//默认的图片,
       list: [],
       isShowLoading: false,
       isShowCreate: true,
-      selectItem: {}
+      selectItem: {},
+      popupVisible: true
+
     }
 
   },
@@ -70,13 +76,16 @@ export default {
     await this.getMyList("origin_1170-1");
   },
   methods: {
+    showPopup() {
+      this.popupVisible = true;
+    },
     switchButton() {
       // this.$router.push({ name: "chainCross" });
       this.$router.push({ name: "cosmos" });
 
     },
     crossButton() {
-      
+
     },
     onClickItem(item) {
       console.log(item.name)

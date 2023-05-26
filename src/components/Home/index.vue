@@ -45,7 +45,7 @@ export default {
       let uptickAccount = await getkeplrUptickAddress();
       this.$store.commit("SET_UPTICK_DID", uptickAccount.toLowerCase());
       if (account && uptickAccount) {
-        this.$router.push({ name: "crossChain" });
+        this.$router.push({ name: "evm" });
       }
     },
 
