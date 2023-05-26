@@ -23,9 +23,11 @@
           </div>
         </div>
         <div class="list">
-          <div class="Cardlist mt-5 ml-6 mr-6" v-if="list.length > 0">
+          <div class="Cardlist d-flex align-content-start flex-wrap" v-if="list.length > 0">
             <div class="listitem" v-for="(item, index) in list" :key="index">
               <Card :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" />
+              <!-- <img :src="item.imgUrl" style="width: 100%;" />
+              <div class="title">{{ item.name }}</div> -->
             </div>
           </div>
           <div v-else class="empty">This is empty, please create NFTs !</div>
@@ -88,18 +90,18 @@ export default {
       // this.list = listInfo.data.list;
       this.list = this.list.concat(listInfo.data.list)
       this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
-      // this.list = this.list.concat(listInfo.data.list)
+      this.list = this.list.concat(listInfo.data.list)
+      this.list = this.list.concat(listInfo.data.list)
+      this.list = this.list.concat(listInfo.data.list)
+      this.list = this.list.concat(listInfo.data.list)
+      this.list = this.list.concat(listInfo.data.list)
+      this.list = this.list.concat(listInfo.data.list)
+      this.list = this.list.concat(listInfo.data.list)
+      this.list = this.list.concat(listInfo.data.list)
+      this.list = this.list.concat(listInfo.data.list)
+      this.list = this.list.concat(listInfo.data.list)
+      this.list = this.list.concat(listInfo.data.list)
+      this.list = this.list.concat(listInfo.data.list)
       // this.list = this.list.concat(listInfo.data.list)
       // this.list = this.list.concat(listInfo.data.list)
       // this.list = this.list.concat(listInfo.data.list)
@@ -238,21 +240,12 @@ export default {
     .Cardlist {
       height: 751px;
       overflow-y: auto;
-      display: flex;
-      // flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      padding: 20px;
 
       .listitem {
         width: calc(20% - 20px);
-        height: calc(20% - 20px);
-        margin-bottom: 20px;
-        margin-bottom: 20px;
-        // padding: 10px;
-        // width: 145px;
-        // height: 125px;
+        padding: 10px;
       }
+ 
     }
 
     .empty {

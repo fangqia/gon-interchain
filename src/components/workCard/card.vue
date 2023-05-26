@@ -55,12 +55,14 @@ export default {
 
 <style lang="scss" scoped>
 .work {
-  // height: 144px;
+  // height: 212px;
+  // height: calc(20% + 100px);
+  // height: 100%;
 
   .mainImg {
     transition: all .5s ease .1s;
     object-fit: cover;
-
+    // height: 235px;
   }
 
   overflow: hidden;
