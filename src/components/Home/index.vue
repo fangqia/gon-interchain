@@ -2,9 +2,9 @@
   <div class="Home ">
     <div class="Title">Interchain Marketplace <span>Uptick-EVM</span></div>
     <div class="btn">
-       <button class="wallet" @click="connectWallet">Connect Wallet</button>
+      <button class="wallet" @click="connectWallet">Connect Wallet</button>
     </div>
-   
+
 
   </div>
 </template>
@@ -19,10 +19,10 @@ import {
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Home',
-  components: {  },
+  components: {},
   data() {
     return {
-      
+
     }
 
   },
@@ -36,8 +36,8 @@ export default {
 
   },
   methods: {
-        async connectWallet() {
-          
+    async connectWallet() {
+
       // Iris Address
       let account = await getkeplrIrisAddress();
       this.$store.commit("SET_DID", account.toLowerCase());
@@ -64,29 +64,31 @@ export default {
   line-height: 30px;
   letter-spacing: 0px;
   color: #ffffff;
-  span{
+
+  span {
     color: #ed0091;
   }
 }
-.btn{
- 	width: 100%;
-					height: 800px;
-					display: flex;
-					justify-content: center;
-          align-items: center;
-          .wallet {
-          width: 376px;
-          height: 61px;
-          background-color: #ed0091;
-          border-radius: 29px;
-          font-family: "MuseoModerno-SemiBold";
-          font-size: 22px;
-          font-weight: normal;
-          font-stretch: normal;
-          line-height: 30px;
-          letter-spacing: 0px;
-          color: #ffffff;
-}
-}
 
+.btn {
+  width: 100%;
+  height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .wallet {
+    width: 376px;
+    height: 61px;
+    background-color: #ed0091;
+    border-radius: 29px;
+    font-family: "MuseoModerno-SemiBold";
+    font-size: 22px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 30px;
+    letter-spacing: 0px;
+    color: #ffffff;
+  }
+}
 </style>

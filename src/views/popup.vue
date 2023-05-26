@@ -6,9 +6,9 @@
         Cross chain conversion completed, switch to Uptick - COSMOS chain for cross chain operation
       </div>
       <div class="bottom">
-        <button class="cancellationBtn" @click="submitButton">
+        <button class="cancellationBtn" @click="closePopup">
           <div>
-            Cancellation
+            {{ buttonText }}
           </div>
         </button>
         <button class="confirmBtn" @click="submitButton">
@@ -30,9 +30,39 @@ export default {
       default: false
     }
   },
+  data() {
+    return {
+      isCountingDown: false,
+      countdownSeconds: 3,
+    }
+  },
+  computed: {
+    buttonText() {
+      if (this.isCountingDown) {
+        return `${this.countdownSeconds}`;
+      } else {
+        return 'Cancellation';
+      }
+    }
+  },
   methods: {
     closePopup() {
-      this.$emit('update:visible', false);
+      if (!this.isCountingDown) {
+        this.isCountingDown = true;
+        let countdownInterval = setInterval(() => {
+          this.countdownSeconds--;
+          if (this.countdownSeconds === 0) {
+            clearInterval(countdownInterval);
+            this.isCountingDown = false;
+            this.countdownSeconds = 3;
+            this.$emit('update:visible', false);
+            this.$emit('reload:data');
+          }
+        }, 1000);
+      }
+    },
+    submitButton() {
+      this.$router.push({ name: "cosmos" });
     }
   }
 }

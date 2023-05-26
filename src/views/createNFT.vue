@@ -328,6 +328,8 @@ export default {
     font-stretch: normal;
     letter-spacing: 0px;
     color: #ffffff;
+    cursor: pointer;
+
 }
 
 

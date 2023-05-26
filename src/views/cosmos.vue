@@ -1,7 +1,7 @@
 <template>
   <div class="Home">
     <div class="hearder d-flex flex-row justify-space-between align-center">
-      <div class="Title">Interchain Marketplace <span>Uptick-EVM</span></div>
+      <div class="Title">Uptick-<span>COSMOS</span> NFT</div>
       <div class="d-flex flex-row align-center">
         <div class="address">0xsd72093836jsis7w8ekxd83kw0ddrsdwd456</div>
         <button class="disconnect ml-4">Disconnect</button>
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="right">
-        <CorssNFT :NFTInfo="selectItem"></CorssNFT>
+        <CosmosCross :NFTInfo="selectItem"></CosmosCross>
       </div>
     </div>
 
@@ -42,14 +42,14 @@
 <script>
 
 import { uploadImage, getNftImg } from "/src/api/image"
-import CorssNFT from "./corssNFT";
+import CosmosCross from "./cosmosCorss";
 import Card from "../components/workCard/card.vue";
 import { getMyCardList, createInfo, getUserInfo, updateUser } from "@/api/home";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'convert',
-  components: { CorssNFT, Card },
+  components: { CosmosCross, Card },
   data() {
     return {
       uploadedImageHash: '',//默认的图片,
@@ -132,7 +132,7 @@ export default {
     color: #ffffff;
 
     span {
-      color: #ed0091;
+      color: #b82fff;
     }
   }
 
@@ -195,6 +195,7 @@ export default {
         font-stretch: normal;
         letter-spacing: 0px;
         color: #ffffff;
+        cursor: pointer;
       }
 
       .leftTitle {

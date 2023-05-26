@@ -89,10 +89,10 @@ export default {
         keplrKeystoreChange() {
             keplrKeystoreChange();
         },
-
         async submitButton() {
-
+            this.$emit('cross:showpop', '')
         },
+     
         loadeImageUrl(hash) {
             return getNftImg(hash)
         },
@@ -220,6 +220,7 @@ export default {
             #ed0091 0%,
             #7e0574 100%);
     border-radius: 25px;
+    cursor: pointer;
 
     // margin-left: 15px;
     div {

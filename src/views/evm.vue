@@ -1,7 +1,7 @@
 <template>
   <div class="Home">
     <div class="hearder d-flex flex-row justify-space-between align-center">
-      <div class="Title">Interchain Marketplace <span>Uptick-EVM</span></div>
+      <div class="Title">Uptick-<span>EVM</span> NFT</div>
       <div class="d-flex flex-row align-center">
         <div class="address">0xsd72093836jsis7w8ekxd83kw0ddrsdwd456</div>
         <button class="disconnect ml-4">Disconnect</button>
@@ -14,7 +14,7 @@
             <div class="leftButton" style="margin-right: 10px;" @click="switchButton">
               Switch to Uptick-COSMOS >
             </div>
-            <div class="leftButton" @click="crossButton">
+            <div class="leftButton" @click="crossButtonRecord">
               Cross-chain record
             </div>
           </div>
@@ -33,10 +33,10 @@
       </div>
       <div class="right">
         <CreateNFT v-if="isShowCreate"></CreateNFT>
-        <ConverNFT v-if="!isShowCreate" :NFTInfo="selectItem"></ConverNFT>
+        <EVMCross v-if="!isShowCreate" :NFTInfo="selectItem" @cross:showpop="crossShowPop"></EVMCross>
       </div>
       <!-- <button @click="showPopup">弹出窗口</button> -->
-      <popup :visible.sync="popupVisible">
+      <popup :visible.sync="popupVisible" @reload:data="reladData">
       </popup>
     </div>
 
@@ -47,7 +47,7 @@
 
 import { uploadImage, getNftImg } from "/src/api/image"
 import CreateNFT from "./createNFT";
-import ConverNFT from "./converNFT";
+import EVMCross from "./evmCross";
 import Card from "../components/workCard/card.vue";
 import { getMyCardList, createInfo, getUserInfo, updateUser } from "@/api/home";
 import Popup from './popup';
@@ -55,7 +55,7 @@ import Popup from './popup';
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'convert',
-  components: { CreateNFT, ConverNFT, Card, Popup },
+  components: { CreateNFT, EVMCross, Card, Popup },
   data() {
     return {
       uploadedImageHash: '',//默认的图片,
@@ -63,7 +63,7 @@ export default {
       isShowLoading: false,
       isShowCreate: true,
       selectItem: {},
-      popupVisible: true
+      popupVisible: false
 
     }
 
@@ -76,6 +76,15 @@ export default {
     await this.getMyList("origin_1170-1");
   },
   methods: {
+    reladData() {
+      console.log("reloadData")
+    },
+    crossShowPop() {
+      this.popupVisible = true
+    },
+    crossHidePop() {
+      this.popupVisible = false
+    },
     showPopup() {
       this.popupVisible = true;
     },
@@ -87,6 +96,10 @@ export default {
     crossButton() {
 
     },
+    crossButtonRecord() {
+
+    },
+
     onClickItem(item) {
       console.log(item.name)
       this.isShowCreate = false
@@ -219,6 +232,8 @@ export default {
         font-stretch: normal;
         letter-spacing: 0px;
         color: #ffffff;
+        cursor: pointer;
+
       }
 
       .create {
@@ -236,6 +251,8 @@ export default {
         font-stretch: normal;
         letter-spacing: 0px;
         color: #ffffff;
+        cursor: pointer;
+
       }
     }
   }

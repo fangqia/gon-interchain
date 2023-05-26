@@ -218,6 +218,7 @@ export default {
     height: 50px;
     border-radius: 25px;
     border: solid 1px #ed0091;
+    cursor: pointer;
 
     div {
         width: 91px;
@@ -241,6 +242,7 @@ export default {
             #ed0091 0%,
             #7e0574 100%);
     border-radius: 25px;
+    cursor: pointer;
 
     // margin-left: 15px;
     div {
