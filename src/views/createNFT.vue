@@ -33,7 +33,9 @@ import { uploadImage, getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
 import { keplrKeystoreChange } from "/src/keplr/index";
 import { uploadJsonData, requestCreateNFT } from "/src/api/home"
-import { issueUptickDenomAndMint } from "/src/keplr/uptick/wallet"
+import { mintNft } from "/src/metaMask/evm/handler/uptick721.js"
+import { getTokenId } from "/src/utils/helper.js"
+
 // import { issueDenomAndMint } from "/src/keplr/iris/wallet"
 import {
     abi, bytecode
@@ -59,7 +61,7 @@ export default {
             isShowLoading: false,
             sender: '',
             metadataUrl: '',
-            amountValue: '1'
+            amountValue: '1',
         }
 
     },
@@ -74,10 +76,10 @@ export default {
         console.log(this.nameValue)
         window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
         debugger
-                const randomInt = new Date().getTime() % 100000 + 1;
-                this.nameValue = "test_evm_" + String(randomInt)
-                this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
-                this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
+        const randomInt = new Date().getTime() % 100000 + 1;
+        this.nameValue = "test_evm_" + String(randomInt)
+        this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
+        this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
 
     },
     watch: {
@@ -137,51 +139,25 @@ export default {
                 let uri = await this.getMetaDataJson()
                 this.metadataUrl = uri
 
-                console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
-
-                console.log("wxl --- ddddd")
-                let contractaddress, web3, proofContract, accounts, proof, transactionHash;
-                web3 = new Web3(window.ethereum);
-
-                proofContract = new web3.eth.Contract(abi)
-                accounts = await web3.eth.getAccounts();
-                proof = await proofContract.deploy({
-                    data: bytecode,
-                    arguments: [
-                        this.nameValue,
-                        ''
-                    ],
-                }).send({
-                    from: accounts[0],
-                    // gas: '4700000',
-                    // to:accounts[0],
-                    gasPrice: 10000000000,
-                    gasLimit: "0x7a1200",
-                    //  value:'0',
-
-                }, function (e, contract) {
+                this.deployContract().then(async receipt => {
+                    console.log(receipt);
+                    let contractAddress = receipt.contractAddress
+                    let tokenId = getTokenId()
                     debugger
-                    // 判断是否交易成功
-                    console.log("wwwwww", contract);
-
-                }).on('receipt', function (receipt) {
+                    let mintResult = await this.mint721Nft(contractAddress, tokenId)
+                    // await this.requestCreateSuccess(txResult)
                     debugger
-                    console.log("wxl -- receipt", receipt)
-                    this.contractaddress = receipt.contractAddress
-                    transactionHash = receipt.transactionHash
-                    contractaddress = receipt.contractAddress
+                    let title = "Create Success"
+                    this.$mtip({
+                        title: title,
+                    });
+                    this.isShowLoading = false
+                // this.pushHome()
+
+                }).catch(error => {
+                    console.error(error);
+                    throw new Error(error);
                 })
-
-
-                // await this.requestCreateSuccess(txResult)
-
-                let title = "Create Success"
-                this.$mtip({
-                    title: title,
-                });
-                this.isShowLoading = false
-                this.pushHome()
-
             } catch (error) {
                 console.log(error);
                 debugger
@@ -190,6 +166,43 @@ export default {
                     title: error.message,
                 });
             }
+        },
+        async deployContract() {
+            console.log("wxl ---- deployContract", this.nameValue)
+            console.log("wxl --- ddddd")
+            let web3, accounts;
+            web3 = new Web3(window.ethereum);
+
+            let proofContract = new web3.eth.Contract(abi)
+            accounts = await web3.eth.getAccounts();
+
+            return new Promise((resolve, reject) => {
+                proofContract.deploy({
+                    data: bytecode,
+                    arguments: [
+                        this.nameValue,
+                        ''
+                    ],
+                }).send({
+                    from: accounts[0],
+                    gasPrice: 10000000000,
+                    gasLimit: "0x7a1200",
+                }, function (e, contract) {
+                    console.log("wwwwww", contract);
+                    console.log("error", e);
+                    if (e) {
+                        reject(e)
+                    }
+                }).on('receipt', function (receipt) {
+                    console.log("wxl -- receipt", receipt)
+                    resolve(receipt)
+                })
+            })
+        },
+        async mint721Nft(contractAddress, tokenId) {
+            let result = await mintNft(contractAddress, tokenId)
+            console.log(result)
+            debugger
         },
         chooseFile() {
             this.$refs.fileInput.click()

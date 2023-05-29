@@ -109,6 +109,15 @@ export const fromSymbolToUnit = (symbol) => {
 	}
 
 }
+
+export const getTokenId = ()=>{
+	var date = Date.now();
+	var str=Math.floor((Math.random()+Math.floor(Math.random()*5+1))*Math.pow(10,5));
+	str=date + ""+str
+	return str
+
+}
+
 export const getSettingArr = ()=>{
 	const json = localStorage.getItem("key_user");
     let address = JSON.parse(json);
