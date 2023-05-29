@@ -3,8 +3,8 @@
     <div class="hearder d-flex flex-row justify-space-between align-center">
       <div class="Title">Uptick-<span>COSMOS</span> NFT</div>
       <div class="d-flex flex-row align-center">
-        <div class="address">0xsd72093836jsis7w8ekxd83kw0ddrsdwd456</div>
-        <button class="disconnect ml-4">Disconnect</button>
+        <div class="address">{{ uptickAddress }}</div>
+        <button class="disconnect ml-4" @click="disconnect">Disconnect</button>
       </div>
     </div>
     <div class="content d-flex flex-row justify-space-between align-center">
@@ -56,7 +56,8 @@ export default {
       list: [],
       isShowLoading: false,
       selectItem: {},
-      cardClass: "listitem"
+      cardClass: "listitem",
+      uptickAddress: ""
     }
 
   },
@@ -64,10 +65,23 @@ export default {
 
   },
   async mounted() {
+    this.uptickAddress = this.$store.state.UptickAddress
+    console.log(this.uptickAddress)
+    if (this.uptickAddress == "") {
+      this.$router.push({ name: "Home" });
+      return
+    }
+
     // 获取列表
     await this.getMyList("origin_1170-1");
   },
   methods: {
+    disconnect() {
+      localStorage.clear();
+      this.$store.commit("SET_DID", "");
+      this.$store.commit("SET_UPTICK_DID", "");
+      this.$router.push({ name: "Home" });
+    },
     switchButton() {
       this.$router.push({ name: "evm" });
 

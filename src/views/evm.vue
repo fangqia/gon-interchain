@@ -3,8 +3,8 @@
     <div class="hearder d-flex flex-row justify-space-between align-center">
       <div class="Title">Uptick-<span>EVM</span> NFT</div>
       <div class="d-flex flex-row align-center">
-        <div class="address">0xsd72093836jsis7w8ekxd83kw0ddrsdwd456</div>
-        <button class="disconnect ml-4">Disconnect</button>
+        <div class="address">{{ evmAddress }}</div>
+        <button class="disconnect ml-4" @click="disconnect">Disconnect</button>
       </div>
     </div>
     <div class="content d-flex flex-row justify-space-between align-center">
@@ -51,6 +51,8 @@ import EVMCross from "./evmCross";
 import Card from "../components/workCard/card.vue";
 import { getMyCardList, createInfo, getUserInfo, updateUser } from "@/api/home";
 import Popup from './popup';
+import { issueUptickDenomAndMint, uptick2Iris, getEvmAddress } from "/src/keplr/uptick/wallet"
+
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -63,8 +65,8 @@ export default {
       isShowLoading: false,
       isShowCreate: true,
       selectItem: {},
-      popupVisible: false
-
+      popupVisible: false,
+      evmAddress: ""
     }
 
   },
@@ -72,10 +74,25 @@ export default {
 
   },
   async mounted() {
+
+    let uptickAddress = this.$store.state.UptickAddress
+    console.log(uptickAddress)
+    if (uptickAddress == "") {
+      this.$router.push({ name: "Home" });
+      return
+    }
+
+    this.evmAddress = getEvmAddress(uptickAddress)
     // 获取列表
     await this.getMyList("origin_1170-1");
   },
   methods: {
+    disconnect() {
+      localStorage.clear();
+      this.$store.commit("SET_DID", "");
+      this.$store.commit("SET_UPTICK_DID", "");
+      this.$router.push({ name: "Home" });
+    },
     reladData() {
       console.log("reloadData")
     },

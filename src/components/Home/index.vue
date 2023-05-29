@@ -1,11 +1,11 @@
 <template>
-  <div class="Home ">
-    <div class="Title">Interchain Marketplace <span>Uptick-EVM</span></div>
+  <div class="Home">
+    <div class="hearder d-flex flex-row justify-space-between align-center">
+      <div class="Title">Uptick-<span>EVM</span> NFT</div>
+    </div>
     <div class="btn">
       <button class="wallet" @click="connectWallet">Connect Wallet</button>
     </div>
-
-
   </div>
 </template>
 
@@ -56,19 +56,28 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-.Title {
-  font-family: AvenirNext-Bold;
-  font-size: 32px;
-  font-weight: bold;
-  font-stretch: normal;
-  line-height: 30px;
-  letter-spacing: 0px;
-  color: #ffffff;
+.hearder {
+  background-color: #1e0826;
+  height: 75px;
+  margin: auto 0;
 
-  span {
-    color: #ed0091;
+  .Title {
+
+    font-family: AvenirNext-Bold;
+    font-size: 32px;
+    font-weight: bold;
+    font-stretch: normal;
+    // line-height: 30px;
+    letter-spacing: 0px;
+    color: #ffffff;
+
+    span {
+      color: #ed0091;
+    }
   }
+
 }
+
 
 .btn {
   width: 100%;
