@@ -26,7 +26,7 @@
         <div class="bottom">
             <button class="crossBtn" @click="submitButton">
                 <div>
-                    Cross-chain transfer to IRISnet
+                    Convert to Uptick-COSMOS
                 </div>
             </button>
 
@@ -38,16 +38,15 @@
 
 <script>
 
-import { uploadImage, getNftImg } from "/src/api/image"
+import { getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
 import { keplrKeystoreChange } from "/src/keplr/index";
 import { uploadJsonData, requestCreateNFT } from "/src/api/home"
-import { getAccountInfo, issueUptickDenomAndMint, uptick2Iris } from "/src/keplr/uptick/wallet"
-import { getMyBalance, issueDenomAndMint, quiryTx, mintNFT } from "/src/keplr/iris/wallet"
+import { convertERC2CosmosNFT } from "/src/keplr/uptick/wallet"
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
-    name: 'Cross',
+    name: 'Convert',
     inheritAttrs: false,
     components: { Loading },
     props: {
@@ -58,7 +57,6 @@ export default {
             isShowLoading: false,
             sender: '',
         }
-
     },
     filters: {
 
@@ -90,7 +88,17 @@ export default {
             keplrKeystoreChange();
         },
         async submitButton() {
-            this.$emit('cross:showpop', '')
+            
+            let contractAddress = this.NFTInfo.contractAddress
+            let tokenId = this.NFTInfo.tokenId
+            
+            try {
+                let result = await convertERC2CosmosNFT(contractAddress, tokenId)
+                
+            } catch (error) {
+                this.$toast("error", error)
+            }
+
         },
      
         loadeImageUrl(hash) {
@@ -224,7 +232,7 @@ export default {
 
     // margin-left: 15px;
     div {
-        width: 163px;
+        // width: 163px;
         font-family: AvenirNext-Bold;
         font-size: 15px;
         font-weight: normal;

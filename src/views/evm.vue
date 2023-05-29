@@ -25,7 +25,7 @@
         <div class="list">
           <div class="Cardlist d-flex align-content-start flex-wrap" v-if="list.length > 0">
             <div class="listitem" v-for="(item, index) in list" :key="index">
-              <Card :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" @click:item="onClickItem" />
+              <Card :selectedId="selectItem.id" :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" @click:item="onClickItem"/>
             </div>
           </div>
           <div v-else class="empty">This is empty, please create NFTs !</div>
@@ -33,7 +33,7 @@
       </div>
       <div class="right">
         <CreateNFT v-if="isShowCreate"></CreateNFT>
-        <EVMCross v-if="!isShowCreate" :NFTInfo="selectItem" @cross:showpop="crossShowPop"></EVMCross>
+        <ConvertCosmoss v-if="!isShowCreate" :NFTInfo="selectItem" @cross:showpop="crossShowPop"></ConvertCosmoss>
       </div>
       <!-- <button @click="showPopup">弹出窗口</button> -->
       <popup :visible.sync="popupVisible" @reload:data="reladData">
@@ -47,7 +47,7 @@
 
 import { uploadImage, getNftImg } from "/src/api/image"
 import CreateNFT from "./createNFT";
-import EVMCross from "./evmCross";
+import ConvertCosmoss from "./convertCosmoss";
 import Card from "../components/workCard/card.vue";
 import { getMyCardList, createInfo, getUserInfo, updateUser } from "@/api/home";
 import Popup from './popup';
@@ -57,7 +57,7 @@ import { issueUptickDenomAndMint, uptick2Iris, getEvmAddress } from "/src/keplr/
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'convert',
-  components: { CreateNFT, EVMCross, Card, Popup },
+  components: { CreateNFT, ConvertCosmoss, Card, Popup },
   data() {
     return {
       uploadedImageHash: '',//默认的图片,
@@ -123,6 +123,7 @@ export default {
       this.selectItem = item
     },
     showCreate() {
+      this.selectItem = {}
       this.isShowCreate = true
     },
     async getMyList(selectChain) {
@@ -288,7 +289,7 @@ export default {
         // height: 125px;
         padding: 10px;
       }
-
+ 
     }
 
     .empty {

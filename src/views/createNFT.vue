@@ -33,8 +33,8 @@ import { uploadImage, getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
 import { keplrKeystoreChange } from "/src/keplr/index";
 import { uploadJsonData, requestCreateNFT } from "/src/api/home"
-import { getAccountInfo, issueUptickDenomAndMint, uptick2Iris } from "/src/keplr/uptick/wallet"
-import { getMyBalance, issueDenomAndMint, quiryTx, mintNFT } from "/src/keplr/iris/wallet"
+import { issueUptickDenomAndMint } from "/src/keplr/uptick/wallet"
+import { issueDenomAndMint } from "/src/keplr/iris/wallet"
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names

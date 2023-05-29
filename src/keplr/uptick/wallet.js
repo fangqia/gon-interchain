@@ -17,8 +17,8 @@ import {
 
 const chainId = "origin_1170-1";
 const irisChainId = "gon-irishub-1";
-const uptickUrl = window.location.protocol+"//"+ window.location.host + "/uptick";
-const irisUrl = window.location.protocol+"//"+ window.location.host + "/iris";
+const uptickUrl = window.location.protocol + "//" + window.location.host + "/uptick";
+const irisUrl = window.location.protocol + "//" + window.location.host + "/iris";
 
 
 
@@ -46,8 +46,8 @@ export async function convertCosmosNFT2ERC(denomId, nftId) {
                 nftId,
                 evmAddress,
                 uptickAddress,
-                "",
-                ""]
+                "",//contractAddress
+                ""]//tokenId
         }
         const result = await sendMsgsTx(uptickAddress, [msg], 1000000, "0x1234");
         console.log(result)
@@ -64,53 +64,53 @@ export async function convertCosmosNFT2ERC(denomId, nftId) {
         console.log(error)
         throw new Error(error)
     }
-    // const result = await sendMsgsTx(uptickAccount.bech32Address, [msg], 1000000, "0x1234");
-    // if (result.code == 0) {
-    //     alert("successful ! ");
-    //     const logInfo = JSON.parse(result.rawLog)
-    //     document.getElementById('contractAddress2').value = logInfo[0].events[0].attributes[4].value
-    //     document.getElementById('tokenId2').value = logInfo[0].events[0].attributes[5].value
-    // }
-    // return result;
-
-
 }
-// await convertCosmosNFT2ERC(classId,nftId,sender,receiver,contractAddress,tokenId);   
-export async function convertERC2CosmosNFT(typeUrl, classId, nftId, sender, receiver, contractAddress, tokenId) {
 
-    //
-    let account = await getAccountInfo();
-    console.log("xxl convertERC2CosmosNFT 01 ", account.address);
+export async function convertERC2CosmosNFT(contractAddress, tokenId) {
 
-    // contractAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    // tokenId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    // receiver: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    // sender: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    // classId: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    // nftId: jspb.Message.getFieldWithDefault(msg, 6, "")
-    let msg = {
-        typeUrl: "/uptick.erc721.v1.MsgConvertERC721",
-        value: [
-            contractAddress,
-            tokenId,
-            receiver,
-            sender,
-            classId,
-            nftId]
+    try {
+
+        let uptickAccount = await getAccountInfo();
+        let uptickAddress = uptickAccount.bech32Address
+        let evmAddress = getEvmAddress(uptickAddress)
+
+
+        console.log('wwww', "/uptick.erc721.v1.MsgConvertERC721", contractAddress, tokenId, evmAddress, uptickAddress);
+        console.log("convertERC2CosmosNFT evmAddress ", evmAddress);
+        console.log("convertERC2CosmosNFT uptickAddress ", uptickAddress);
+
+        // contractAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
+        // tokenId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+        // receiver: jspb.Message.getFieldWithDefault(msg, 3, ""),
+        // sender: jspb.Message.getFieldWithDefault(msg, 4, ""),
+        // classId: jspb.Message.getFieldWithDefault(msg, 5, ""),
+        // nftId: jspb.Message.getFieldWithDefault(msg, 6, "")
+        let msg = {
+            typeUrl: "/uptick.erc721.v1.MsgConvertERC721",
+            value: [
+                contractAddress,
+                tokenId,
+                uptickAddress,
+                evmAddress,
+                "",//classId
+                ""]//nftId
+        }
+
+        const result = await sendMsgsTx(uptickAddress, [msg], 1000000, "0x1234");
+        console.log(result)
+        console.log(JSON.parse(result.rawLog))
+        debugger
+        if (result.code == 0) {
+            const logInfo = JSON.parse(result.rawLog)
+
+            return logInfo;
+        } else {
+            throw new Error(result.rawLog)
+        }
+    } catch (error) {
+        console.log(error)
+        throw new Error(error)
     }
-
-    const result = await sendMsgsTx(account.bech32Address, [msg], 1000000, "0x1234");
-    if (result.code == 0) {
-        alert("successful ! ");
-        const logInfo = JSON.parse(result.rawLog)
-        console.log(logInfo);
-
-        document.getElementById('classId3').value = logInfo[0].events[0].attributes[2].value
-        document.getElementById('nftId3').value = logInfo[0].events[0].attributes[3].value
-
-
-    }
-    return result;
 
 }
 
