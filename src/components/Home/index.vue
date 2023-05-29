@@ -16,6 +16,10 @@ import {
   getkeplrUptickAddress,
   initWallet,
 } from "../../keplr/index";
+
+// import { getMatamaskWeb3 } from "../../utils/getAccount";
+import { wallet as evmWallet } from "@/metaMask";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Home',
@@ -40,6 +44,8 @@ export default {
 
       // Iris Address
       let account = await getkeplrIrisAddress();
+      // let evmAccount = await getMatamaskWeb3();
+      debugger
       this.$store.commit("SET_DID", account.toLowerCase());
       // uptick Address
       let uptickAccount = await getkeplrUptickAddress();
@@ -49,6 +55,11 @@ export default {
       }
     },
 
+    // async getMatamaskWeb3(){
+    //   let account = await evmWallet().getAccountInfo();
+    //   let address = await account.getAddress();
+    //   return address;
+    // },
   },
 
 }

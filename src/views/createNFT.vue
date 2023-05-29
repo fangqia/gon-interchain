@@ -34,7 +34,11 @@ import Loading from "@/components/loading.vue";
 import { keplrKeystoreChange } from "/src/keplr/index";
 import { uploadJsonData, requestCreateNFT } from "/src/api/home"
 import { issueUptickDenomAndMint } from "/src/keplr/uptick/wallet"
-import { issueDenomAndMint } from "/src/keplr/iris/wallet"
+// import { issueDenomAndMint } from "/src/keplr/iris/wallet"
+import {
+    abi, bytecode
+} from "@/metaMask/evm/artifact/Uptick721.json";
+const Web3 = require('web3');
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
@@ -55,7 +59,6 @@ export default {
             isShowLoading: false,
             sender: '',
             metadataUrl: '',
-            chainType: '',
             amountValue: '1'
         }
 
@@ -67,22 +70,14 @@ export default {
         console.log(this.$store.state.IrisAddress)//IrisAddress
         console.log(this.$store.state.UptickAddress)//UptickAddress
         console.log(this.$store.state.chainType)//chainType
-        this.chainType = this.$store.state.chainType
 
-        if (this.chainType == "gon-irishub-1") {
-            this.sender = this.$store.state.IrisAddress
-        }
-
-        if (this.chainType == "origin_1170-1") {
-            this.sender = this.$store.state.UptickAddress
-        }
         console.log(this.nameValue)
         window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
-// debugger
-//         const randomInt = new Date().getTime() % 100000 + 1;
-//         this.nameValue = "test_" + this.chainType + "_" + String(randomInt)
-//         this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
-//         this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
+        debugger
+                const randomInt = new Date().getTime() % 100000 + 1;
+                this.nameValue = "test_evm_" + String(randomInt)
+                this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
+                this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
 
     },
     watch: {
@@ -144,31 +139,41 @@ export default {
 
                 console.log("wxl ---- mintNFT", name, sender, uri, data, amount)
 
-                let txResult;
-                if (this.chainType == "gon-irishub-1") {
-                    txResult = await issueDenomAndMint(
-                        name,
-                        sender,
-                        sender,
-                        uri,
-                        data,
-                        amount,
-                    );
-                    console.log(txResult)
-                }
-                if (this.chainType == "origin_1170-1") {
-                    txResult = await issueUptickDenomAndMint(
-                        name,
-                        sender,
-                        sender,
-                        uri,
-                        data,
-                        amount,
-                    );
-                }
+                console.log("wxl --- ddddd")
+                let contractaddress, web3, proofContract, accounts, proof, transactionHash;
+                web3 = new Web3(window.ethereum);
 
-                debugger
-                await this.requestCreateSuccess(txResult)
+                proofContract = new web3.eth.Contract(abi)
+                accounts = await web3.eth.getAccounts();
+                proof = await proofContract.deploy({
+                    data: bytecode,
+                    arguments: [
+                        this.nameValue,
+                        ''
+                    ],
+                }).send({
+                    from: accounts[0],
+                    // gas: '4700000',
+                    // to:accounts[0],
+                    gasPrice: 10000000000,
+                    gasLimit: "0x7a1200",
+                    //  value:'0',
+
+                }, function (e, contract) {
+                    debugger
+                    // 判断是否交易成功
+                    console.log("wwwwww", contract);
+
+                }).on('receipt', function (receipt) {
+                    debugger
+                    console.log("wxl -- receipt", receipt)
+                    this.contractaddress = receipt.contractAddress
+                    transactionHash = receipt.transactionHash
+                    contractaddress = receipt.contractAddress
+                })
+
+
+                // await this.requestCreateSuccess(txResult)
 
                 let title = "Create Success"
                 this.$mtip({
