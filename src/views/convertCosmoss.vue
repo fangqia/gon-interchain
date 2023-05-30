@@ -63,44 +63,40 @@ export default {
     },
     async mounted() {
         console.log(this.NFTInfo)
-
         console.log(this.$store.state.IrisAddress)//IrisAddress
         console.log(this.$store.state.UptickAddress)//UptickAddress
-        console.log(this.$store.state.chainType)//chainType
-        this.chainType = this.$store.state.chainType
-
-        console.log(this.nameValue)
         window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
-        // debugger
-        //         const randomInt = new Date().getTime() % 100000 + 1;
-        //         this.nameValue = "test_" + this.chainType + "_" + String(randomInt)
-        //         this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
-        //         this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
-
-    },
-    watch: {
-        uploadedImageHash: 'checkInput',
-        nameValue: 'checkInput',
-        descriptionValue: 'checkInput',
     },
     methods: {
         keplrKeystoreChange() {
             keplrKeystoreChange();
         },
         async submitButton() {
-            
-            let contractAddress = this.NFTInfo.contractAddress
-            let tokenId = this.NFTInfo.tokenId
-            
+            console.log(this.NFTInfo)
+
+            debugger
+            let contractAddress = this.NFTInfo.nftAddress
+            let tokenId = this.NFTInfo.nftId
+            this.isShowLoading = true
             try {
                 let result = await convertERC2CosmosNFT(contractAddress, tokenId)
-                
+                console.log(result)
+
+                let denomId = result[0].events[0].attributes[2].value
+                let nftId = result[0].events[0].attributes[3].value
+                console.log("denomId, nftId", denomId, nftId)
+                //调用接口同步数据
+                // XXXXXXXXXXXXXXX
+                this.isShowLoading = false
+                this.$toast("success", "Convert Success")
+                this.$emit('cross:showpop');
+                debugger
             } catch (error) {
+                this.isShowLoading = false
                 this.$toast("error", error)
             }
-
         },
-     
+
         loadeImageUrl(hash) {
             return getNftImg(hash)
         },
@@ -164,6 +160,7 @@ export default {
 
 .tips {
     width: 390px;
+
     .line {
         width: 100%;
         margin: 10px 0px 10px 0px;

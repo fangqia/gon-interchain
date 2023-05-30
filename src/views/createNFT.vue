@@ -61,10 +61,7 @@ export default {
             isInputEmpty: true,
             isShowLoading: false,
             sender: '',
-            metadataUrl: '',
-            amountValue: '1',
         }
-
     },
     filters: {
 
@@ -233,7 +230,6 @@ export default {
             this.isInputEmpty =
                 this.nameValue.trim() === '' ||
                 this.descriptionValue.trim() === '' ||
-                this.amountValue.trim() === '' ||
                 this.uploadedImageHash.trim() === 'QmPuuSpLdzV4Hz4aJtPUVzxsgnLKPYiqKdYtdTGyLF6Pn5'
             console.log(this.isInputEmpty)
         },

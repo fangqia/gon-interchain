@@ -60,7 +60,6 @@ export default {
   components: { CreateNFT, ConvertCosmoss, Card, Popup },
   data() {
     return {
-      uploadedImageHash: '',//默认的图片,
       list: [],
       isShowLoading: false,
       isShowCreate: true,
@@ -119,7 +118,7 @@ export default {
     },
 
     onClickItem(item) {
-      console.log(item.name)
+      console.log(item)
       this.isShowCreate = false
       this.selectItem = item
     },
