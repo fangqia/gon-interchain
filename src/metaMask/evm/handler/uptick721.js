@@ -22,11 +22,16 @@ const base = require('./base');
 //     }
 // }
 
-export async function mintNft(contractAddress, tokenId) {
+export async function mintNft(toAddress, contractAddress, tokenId, uri) {
     try {
         const account = await base.getAccounts();
-        let toAddress = await account.getAddress();
-        debugger
+        let address = await account.getAddress();
+        let chainId = await account.getChainId();
+
+        if (address.toLowerCase() != toAddress.toLowerCase()) {
+            throw new Error("Metamask address are different Keplr address")
+        }
+
         let contract
         if (!contract) {
             contract = await connect(contractAddress, abi, account);
@@ -36,11 +41,20 @@ export async function mintNft(contractAddress, tokenId) {
         let result = await contract.mintByCreatorFee(
             toAddress,
             tokenId,
-            "",//baseurl
+            uri,//baseurl
             "0",//mintByCreatorFee
             { gasPrice: gasSetting.gasPrice, gasLimit: gasSetting.gasLimit }
         );
-        return result;
+        console.log("result", result);
+        debugger
+        return {
+            "address": toAddress,
+            "contractAddress": contractAddress,
+            "tokenId": tokenId,
+            "uri": uri,
+            "hash": result.hash,
+            "chainId": chainId
+        };
     } catch (error) {
         console.log(error);
         throw new Error(error)

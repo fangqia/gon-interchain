@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="right">
-        <CreateNFT v-if="isShowCreate"></CreateNFT>
+        <CreateNFT v-if="isShowCreate" @reload:data="reladData"></CreateNFT>
         <ConvertCosmoss v-if="!isShowCreate" :NFTInfo="selectItem" @cross:showpop="crossShowPop"></ConvertCosmoss>
       </div>
       <!-- <button @click="showPopup">弹出窗口</button> -->
@@ -93,8 +93,9 @@ export default {
       this.$store.commit("SET_UPTICK_DID", "");
       this.$router.push({ name: "Home" });
     },
-    reladData() {
+    async reladData() {
       console.log("reloadData")
+      await this.getMyList("origin_1170-1");
     },
     crossShowPop() {
       this.popupVisible = true

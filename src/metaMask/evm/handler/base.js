@@ -67,8 +67,6 @@ export async function addNetwork() {
                 },
                 rpcUrls: ['https://json-rpc.origin.uptick.network'],
                 blockExplorerUrls: ['https://evm-explorer.origin.uptick.network/'],
-
-
             }],
         });
     }

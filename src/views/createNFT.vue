@@ -35,6 +35,7 @@ import { keplrKeystoreChange } from "/src/keplr/index";
 import { uploadJsonData, requestCreateNFT } from "/src/api/home"
 import { mintNft } from "/src/metaMask/evm/handler/uptick721.js"
 import { getTokenId } from "/src/utils/helper.js"
+import { getEvmAddress } from "/src/keplr/uptick/wallet.js"
 
 // import { issueDenomAndMint } from "/src/keplr/iris/wallet"
 import {
@@ -69,18 +70,18 @@ export default {
 
     },
     async mounted() {
-        console.log(this.$store.state.IrisAddress)//IrisAddress
-        console.log(this.$store.state.UptickAddress)//UptickAddress
-        console.log(this.$store.state.chainType)//chainType
 
-        console.log(this.nameValue)
-        window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
+        this.sender = this.$store.state.UptickAddress
+        // this.sender = getEvmAddress(this.$store.state.UptickAddress)
+
+        console.log(this.sender)
         debugger
+        window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
+        // debugger
         const randomInt = new Date().getTime() % 100000 + 1;
         this.nameValue = "test_evm_" + String(randomInt)
-        this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
+        this.descriptionValue = "test_evm_" + String(randomInt)
         this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
-
     },
     watch: {
         uploadedImageHash: 'checkInput',
@@ -106,16 +107,24 @@ export default {
         async requestCreateSuccess(txResult) {
             var params = {}
 
-            params.nftAddress = txResult.tokenId;
-            params.nftId = txResult.nftIds
+            params.nftAddress = txResult.contractAddress;
+            params.nftId = txResult.tokenId
             params.hash = txResult.hash
-            params.chainType = this.chainType
-            params.name = encodeURIComponent(this.nameValue)
-            params.description = encodeURIComponent(this.descriptionValue)
+
+            // params.chainType = txResult.chainId
+            // params.creator = txResult.address
+            // params.owner = txResult.address
+
+            params.chainType = "origin_1170-1"
             params.creator = this.sender
             params.owner = this.sender
+
+            params.metadataUrl = txResult.uri
+
+            params.name = encodeURIComponent(this.nameValue)
+            params.description = encodeURIComponent(this.descriptionValue)
             params.imgUrl = this.loadeImageUrl(this.uploadedImageHash)
-            params.metadataUrl = this.metadataUrl
+
             let result = await requestCreateNFT(params)
             console.log(result)
             if (result.status == 201 || result.status == 200) {
@@ -131,11 +140,6 @@ export default {
                 console.log(this.nameValue)
                 this.isShowLoading = true
 
-                let name = this.nameValue;
-                let sender = this.sender
-                let data = ""
-                let amount = Number(this.amountValue)
-
                 let uri = await this.getMetaDataJson()
                 this.metadataUrl = uri
 
@@ -143,16 +147,18 @@ export default {
                     console.log(receipt);
                     let contractAddress = receipt.contractAddress
                     let tokenId = getTokenId()
-                    debugger
-                    let mintResult = await this.mint721Nft(contractAddress, tokenId)
-                    // await this.requestCreateSuccess(txResult)
+                    let toAddress = getEvmAddress(this.sender)
+                    let txResult = await mintNft(toAddress, contractAddress, tokenId, uri)
+                    console.log(txResult)
+                    await this.requestCreateSuccess(txResult)
                     debugger
                     let title = "Create Success"
                     this.$mtip({
                         title: title,
                     });
                     this.isShowLoading = false
-                // this.pushHome()
+                    // this.pushHome()
+                    this.$emit('reload:data');
 
                 }).catch(error => {
                     console.error(error);
@@ -199,11 +205,7 @@ export default {
                 })
             })
         },
-        async mint721Nft(contractAddress, tokenId) {
-            let result = await mintNft(contractAddress, tokenId)
-            console.log(result)
-            debugger
-        },
+
         chooseFile() {
             this.$refs.fileInput.click()
         },
