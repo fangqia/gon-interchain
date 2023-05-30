@@ -41,10 +41,10 @@
 
 <script>
 
-import { uploadImage, getNftImg } from "/src/api/image"
+import { getNftImg } from "/src/api/image"
 import CosmosCross from "./cosmosCorss";
 import Card from "../components/workCard/card.vue";
-import { getMyCardList, createInfo, getUserInfo, updateUser } from "@/api/home";
+import { getMyCardList } from "@/api/home";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names

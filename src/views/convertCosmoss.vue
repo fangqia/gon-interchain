@@ -41,7 +41,7 @@
 import { getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
 import { keplrKeystoreChange } from "/src/keplr/index";
-import { uploadJsonData, requestCreateNFT } from "/src/api/home"
+import { requestCreateNFT } from "/src/api/home"
 import { convertERC2CosmosNFT } from "/src/keplr/uptick/wallet"
 
 export default {

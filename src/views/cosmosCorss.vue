@@ -24,12 +24,12 @@
             </div>
         </div>
         <div class="bottom">
-            <button class="withdrawBtn" @click="submitButton">
+            <button class="withdrawBtn" @click="withdrawButton">
                 <div>
                     Withdraw to Uptick-EVM
                 </div>
             </button>
-            <button class="crossBtn" @click="submitButton">
+            <button class="crossBtn" @click="crossButton">
                 <div>
                     Cross-chain transfer to IRISnet
                 </div>
@@ -43,7 +43,7 @@
 
 <script>
 
-import { uploadImage, getNftImg } from "/src/api/image"
+import { getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
 import { keplrKeystoreChange } from "/src/keplr/index";
 import { uploadJsonData, requestCreateNFT } from "/src/api/home"
@@ -70,12 +70,7 @@ export default {
     },
     async mounted() {
         console.log(this.NFTInfo)
-
-        console.log(this.$store.state.IrisAddress)//IrisAddress
         console.log(this.$store.state.UptickAddress)//UptickAddress
-        console.log(this.$store.state.chainType)//chainType
-        this.chainType = this.$store.state.chainType
-
         console.log(this.nameValue)
         window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
         // debugger
@@ -84,11 +79,6 @@ export default {
         //         this.descriptionValue = "test_" + this.chainType + "_" + String(randomInt)
         //         this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
 
-    },
-    watch: {
-        uploadedImageHash: 'checkInput',
-        nameValue: 'checkInput',
-        descriptionValue: 'checkInput',
     },
     methods: {
         keplrKeystoreChange() {

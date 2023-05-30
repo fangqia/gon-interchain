@@ -45,13 +45,13 @@
 
 <script>
 
-import { uploadImage, getNftImg } from "/src/api/image"
+import { getNftImg } from "/src/api/image"
 import CreateNFT from "./createNFT";
 import ConvertCosmoss from "./convertCosmoss";
 import Card from "../components/workCard/card.vue";
-import { getMyCardList, createInfo, getUserInfo, updateUser } from "@/api/home";
+import { getMyCardList } from "@/api/home";
 import Popup from './popup';
-import { issueUptickDenomAndMint, uptick2Iris, getEvmAddress } from "/src/keplr/uptick/wallet"
+import { getEvmAddress } from "/src/keplr/uptick/wallet"
 
 
 export default {
