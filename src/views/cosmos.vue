@@ -32,8 +32,12 @@
         </div>
       </div>
       <div class="right">
-        <CosmosCross :NFTInfo="selectItem"></CosmosCross>
+        <CosmosCross :NFTInfo="selectItem" @withdraw:showpop="withdrawShowPop" @crossIris:showpop="crossIrisShowPop"></CosmosCross>
       </div>
+      <popup :visible.sync="popupVisible"
+        title=""
+        @reload:data="reladData" @submit:popup="submitPopup">
+      </popup>
     </div>
 
   </div>
@@ -45,6 +49,7 @@ import { getNftImg } from "/src/api/image"
 import CosmosCross from "./cosmosCorss";
 import Card from "../components/workCard/card.vue";
 import { getMyCardList } from "@/api/home";
+import Popup from './popup';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -57,7 +62,9 @@ export default {
       isShowLoading: false,
       selectItem: {},
       cardClass: "listitem",
-      uptickAddress: ""
+      popupVisible: false,
+      uptickAddress: "",
+      title: ""
     }
 
   },
@@ -82,9 +89,23 @@ export default {
       this.$store.commit("SET_UPTICK_DID", "");
       this.$router.push({ name: "Home" });
     },
+    withdrawShowPop() {
+      this.popupVisible = true
+      this.title = "Cross chain conversion completed, switch to Uptick - EVM chain for cross chain operation"
+    },
+    crossIrisShowPop() {
+      this.popupVisible = true
+      this.title = "Cross chain to IRIS completed"
+    },
+    async reladData() {
+      console.log("reloadData")
+      await this.getMyList("origin_1170-1");
+    },
+    submitPopup() {
+      this.$router.push({ name: "evm" });
+    },
     switchButton() {
       this.$router.push({ name: "evm" });
-
     },
     onClickItem(item) {
       console.log(item.name)

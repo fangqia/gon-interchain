@@ -51,6 +51,11 @@ export function cardDetail(params) {
     return service.post('/gonapi/nft/nftInfo',transObjToParamStr(params))
 }
 
+export function requestTranserNFT(params) {
+    return service.post('/gonapi/nft/edit', 
+        transObjToParamStr(params)
+    )
+}
 
 
 function transObjToParamStr(object) {

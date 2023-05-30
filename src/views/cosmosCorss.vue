@@ -46,9 +46,8 @@
 import { getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
 import { keplrKeystoreChange } from "/src/keplr/index";
-import { uploadJsonData, requestCreateNFT } from "/src/api/home"
-import { getAccountInfo, issueUptickDenomAndMint, uptick2Iris } from "/src/keplr/uptick/wallet"
-import { getMyBalance, issueDenomAndMint, quiryTx, mintNFT } from "/src/keplr/iris/wallet"
+import { requestTranserNFT } from "/src/api/home"
+import { convertCosmosNFT2ERC, uptick2Iris } from "/src/keplr/uptick/wallet"
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
@@ -85,8 +84,59 @@ export default {
             keplrKeystoreChange();
         },
 
-        async submitButton() {
+        async withdrawButton() {
 
+            console.log(this.NFTInfo)
+
+            debugger
+            let denomId = this.NFTInfo.nftAddress
+            let nftId = this.NFTInfo.nftId
+            this.isShowLoading = true
+            try {
+                let result = await convertCosmosNFT2ERC(denomId, nftId)
+                console.log(result)
+
+                let contractAddress = result[0].events[0].attributes[4].value
+                let tokenId = result[0].events[0].attributes[5].value
+                console.log("contractAddress, tokenId", contractAddress, tokenId)
+                //调用接口同步数据
+                // XXXXXXXXXXXXXXX
+                this.isShowLoading = false
+                this.$toast("success", "Convert Success")
+                this.$emit('withdraw:showpop');
+                debugger
+            } catch (error) {
+                this.isShowLoading = false
+                this.$toast("error", error)
+            }
+
+
+        },
+        async crossButton() {
+            console.log(this.NFTInfo)
+
+            let denomId = this.NFTInfo.nftAddress
+            let nftId = this.NFTInfo.nftId
+            this.isShowLoading = true
+            try {
+                let result = await uptick2Iris(denomId, nftId)
+                console.log(result)
+                //链上转送完成，调用接口
+                let params = {}
+                params.nftAddress = denomId
+                params.nftId = nftId
+                params.status = 1
+                let transferResult = await requestTranserNFT(params)
+                console.log(transferResult)
+
+                this.isShowLoading = false
+                this.$toast("success", "Convert Success")
+                this.$emit('crossIris:showpop');
+                debugger
+            } catch (error) {
+                this.isShowLoading = false
+                this.$toast("error", error)
+            }
         },
         loadeImageUrl(hash) {
             return getNftImg(hash)

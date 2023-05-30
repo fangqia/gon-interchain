@@ -3,7 +3,7 @@
     <div class="mask" v-show="visible"></div>
     <div class="popup" v-show="visible">
       <div class="tips" style="color: black;">
-        Cross chain conversion completed, switch to Uptick - COSMOS chain for cross chain operation
+        {{ title }}
       </div>
       <div class="bottom">
         <button class="cancellationBtn" @click="closePopup">
@@ -28,6 +28,10 @@ export default {
     visible: {
       type: Boolean,
       default: false
+    },
+    title: {
+      type: String,
+      default: ""
     }
   },
   data() {
@@ -62,7 +66,9 @@ export default {
       }
     },
     submitButton() {
-      this.$router.push({ name: "cosmos" });
+      this.$emit('submit:popup');
+
+
     }
   }
 }

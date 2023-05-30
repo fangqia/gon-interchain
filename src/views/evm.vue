@@ -25,7 +25,8 @@
         <div class="list">
           <div class="Cardlist d-flex align-content-start flex-wrap" v-if="list.length > 0">
             <div class="listitem" v-for="(item, index) in list" :key="index">
-              <Card :selectedId="selectItem.id" :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" @click:item="onClickItem"/>
+              <Card :selectedId="selectItem.id" :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item"
+                @click:item="onClickItem" />
             </div>
           </div>
           <div v-else class="empty">This is empty, please create NFTs !</div>
@@ -36,7 +37,9 @@
         <ConvertCosmoss v-if="!isShowCreate" :NFTInfo="selectItem" @cross:showpop="crossShowPop"></ConvertCosmoss>
       </div>
       <!-- <button @click="showPopup">弹出窗口</button> -->
-      <popup :visible.sync="popupVisible" @reload:data="reladData">
+      <popup :visible.sync="popupVisible"
+        title="Cross chain conversion completed, switch to Uptick - COSMOS chain for cross chain operation"
+        @reload:data="reladData" @submit:popup="submitPopup">
       </popup>
     </div>
 
@@ -95,6 +98,9 @@ export default {
     async reladData() {
       console.log("reloadData")
       await this.getMyList("origin_1170-1");
+    },
+    submitPopup() {
+      this.$router.push({ name: "cosmos" });
     },
     crossShowPop() {
       this.popupVisible = true
@@ -289,7 +295,7 @@ export default {
         // height: 125px;
         padding: 10px;
       }
- 
+
     }
 
     .empty {
