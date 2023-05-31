@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 let { bech32 } = require('bech32');
 import Web3 from 'web3';
-const web3Obj = new Web3("https://json-rpc.uptick.network");
+const web3Obj = new Web3("https://json-rpc.origin.uptick.network");
 
 const fromHexString = hexString =>
     new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));

@@ -295,9 +295,8 @@ export default {
         // height: 125px;
         padding: 10px;
       }
-
     }
-
+ 
     .empty {
       height: 751px;
       display: flex;
@@ -313,6 +312,10 @@ export default {
     height: 100%;
     background-color: #1e0826;
   }
-
+/* 隐藏滚动条 */
+// ::-webkit-scrollbar {
+//   display: none;
+// }
+ 
 }
 </style>

@@ -1,7 +1,7 @@
 
 import { ethers } from "ethers";
 import Web3 from 'web3';
-// const web3Obj = new Web3("https://json-rpc.uptick.network");
+// const web3Obj = new Web3("https://json-rpc.origin.uptick.network");
 
 export async function addNetwork() {
     try {

@@ -25,18 +25,18 @@
         <div class="list">
           <div class="Cardlist d-flex align-content-start flex-wrap" v-if="list.length > 0">
             <div class="listitem" v-for="(item, index) in list" :key="index">
-              <Card :selectedId="selectItem.id" :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item" @click:item="onClickItem"/>
+              <Card :selectedId="selectItem.id" :imgUrl="item.imgUrl" :name="item.name" :NFTInfo="item"
+                @click:item="onClickItem" />
             </div>
           </div>
           <div v-else class="empty">This is empty, please create NFTs !</div>
         </div>
       </div>
       <div class="right">
-        <CosmosCross :NFTInfo="selectItem" @withdraw:showpop="withdrawShowPop" @crossIris:showpop="crossIrisShowPop"></CosmosCross>
+        <CosmosCross :NFTInfo="selectItem" @withdraw:showpop="withdrawShowPop" @crossIris:showpop="crossIrisShowPop">
+        </CosmosCross>
       </div>
-      <popup :visible.sync="popupVisible"
-        title=""
-        @reload:data="reladData" @submit:popup="submitPopup">
+      <popup :visible.sync="popupVisible" :title="title" @reload:data="reladData" @submit:popup="submitPopup">
       </popup>
     </div>
 
@@ -54,7 +54,7 @@ import Popup from './popup';
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'convert',
-  components: { CosmosCross, Card },
+  components: { CosmosCross, Card, Popup },
   data() {
     return {
       uploadedImageHash: '',//默认的图片,
@@ -128,10 +128,14 @@ export default {
       let listInfo = await getMyCardList(
         params
       );
-      this.list = listInfo.data.list;
-      this.selectItem = this.list[0]
       this.isShowLoading = false;
       console.log("ssss", this.list);
+      this.list = listInfo.data.list;
+      if (this.list.length != 0) {
+        this.selectItem = this.list[0]
+      } else {
+        this.$router.push({ name: "evm" });
+      }
     },
     loadeImageUrl(hash) {
       return getNftImg(hash)
@@ -281,6 +285,12 @@ export default {
       }
 
 
+
+
+    }
+
+    .Cardlist:-webkit-scrollbar {
+      display: none;
     }
 
     .empty {

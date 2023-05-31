@@ -142,11 +142,21 @@ contract ERC721Uptick is
 
         // We cannot just use balanceOf to create the new tokenId because tokens
         // can be burned (destroyed), so we need a separate counter.
+
         _idEnhanceInfoMap[id].name = name;
         _idEnhanceInfoMap[id].uri = uri;
         _idEnhanceInfoMap[id].data = data;
         _idEnhanceInfoMap[id].uriHash = uriHash;
         _mint(to, id);
+    }
+
+    /**
+     * @dev See {IERC721Metadata-tokenURI}.
+     */
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+
+        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+        return _idEnhanceInfoMap[tokenId].uri;
     }
 
     /**

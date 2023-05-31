@@ -1,8 +1,8 @@
 <template>
     <div class="d-flex flex-column justify-space-center align-center">
         <div class="create d-flex flex-row justify-space-center align-center">
-            <input type="file" accept="image/*" ref="fileInput" style="display:none" @change="uploadFile">
-            <div class="addButton" @click="chooseFile">
+            <div class="addButton">
+                <input type="file" accept="image/*" ref="fileInput" @change="uploadFile">
                 <img v-if="uploadedImageHash == ''" class="addImage"
                     :src="loadeImageUrl('QmVPw5QsFkLQKX4ysErUACT4yg5Rf65Z4qZKirJ9bwKLFg')">
                 <img class="uploadImage" :src="loadeImageUrl(uploadedImageHash)" v-if="uploadedImageHash != ''">
@@ -33,15 +33,12 @@ import { uploadImage, getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
 import { keplrKeystoreChange } from "/src/keplr/index";
 import { uploadJsonData, requestCreateNFT } from "/src/api/home"
-import { mintNft } from "/src/metaMask/evm/handler/uptick721.js"
+import { deployContract, mintNft } from "/src/metaMask/evm/handler/uptick721.js"
 import { getTokenId } from "/src/utils/helper.js"
 import { getEvmAddress } from "/src/keplr/uptick/wallet.js"
 
 // import { issueDenomAndMint } from "/src/keplr/iris/wallet"
-import {
-    abi, bytecode
-} from "@/metaMask/evm/artifact/ERC721Uptick.json";
-const Web3 = require('web3');
+//  const Web3 = require('web3');
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
@@ -140,7 +137,7 @@ export default {
                 let uriHash = await this.getMetaDataJson()
                 this.metadataUrl = uriHash
 
-                this.deployContract().then(async receipt => {
+                deployContract(this.nameValue).then(async receipt => {
                     console.log(receipt);
                     let contractAddress = receipt.contractAddress
                     let tokenId = getTokenId()
@@ -159,8 +156,12 @@ export default {
                     this.$emit('reload:data');
 
                 }).catch(error => {
-                    console.error(error);
-                    throw new Error(error);
+                    console.log(error);
+                    debugger
+                    this.isShowLoading = false
+                    this.$mtip({
+                        title: error.message,
+                    });
                 })
             } catch (error) {
                 console.log(error);
@@ -171,46 +172,6 @@ export default {
                 });
             }
         },
-        async deployContract() {
-            console.log("wxl ---- deployContract", this.nameValue)
-            console.log("wxl --- ddddd")
-            let web3, accounts;
-            web3 = new Web3(window.ethereum);
-            debugger
-            let proofContract = new web3.eth.Contract(abi)
-            accounts = await web3.eth.getAccounts();
-
-            return new Promise((resolve, reject) => {
-                proofContract.deploy({
-                    data: bytecode,
-                    arguments: [
-                        this.nameValue,
-                        "",
-                        "",
-                        "",
-                        "",
-                        false,
-                        "",
-                        false,
-                        "",
-                    ],
-                }).send({
-                    from: accounts[0],
-                    gasPrice: 10000000000,
-                    gasLimit: "0x7a1200",
-                }, function (e, contract) {
-                    console.log("wwwwww", contract);
-                    console.log("error", e);
-                    if (e) {
-                        reject(e)
-                    }
-                }).on('receipt', function (receipt) {
-                    console.log("wxl -- receipt", receipt)
-                    resolve(receipt)
-                })
-            })
-        },
-
         chooseFile() {
             this.$refs.fileInput.click()
         },
@@ -218,6 +179,7 @@ export default {
             console.log(event)
             const file = event.target.files[0]
             console.log(file)
+            if (!file) { return }
             const formData = new FormData()
             formData.append('file', file)
             this.isShowLoading = true
@@ -269,6 +231,17 @@ export default {
         background-position: center;
         height: 450px;
         width: 100%;
+        position: relative;
+
+        input {
+            position: absolute;
+            // top: 10px;
+            // left: 10px;
+            background-color: green;
+            width: 100%;
+            height: 100%;
+            opacity: 0.0;
+        }
 
         .addImage {
             // background-image: url('/src/assets/icon_addimage.png');

@@ -4,9 +4,10 @@ import {
 } from "./common";
 
 import {
-    abi
+    abi, bytecode
 } from "../artifact/ERC721Uptick.json";
 
+const Web3 = require('web3');
 const base = require('./base');
 
 // //xxl todo get from .evn
@@ -21,6 +22,46 @@ const base = require('./base');
 //         contractAddressPlatform = platformAddress;
 //     }
 // }
+
+export async function deployContract(name) {
+    console.log("wxl ---- deployContract", name)
+    console.log("wxl --- ddddd")
+    let web3, accounts;
+    web3 = new Web3(window.ethereum);
+    debugger
+    let proofContract = new web3.eth.Contract(abi)
+    accounts = await web3.eth.getAccounts();
+debugger
+    return new Promise((resolve, reject) => {
+        proofContract.deploy({
+            data: bytecode,
+            arguments: [
+                name,
+                "",
+                "",
+                "",
+                "",
+                false,
+                "",
+                false,
+                "",
+            ],
+        }).send({
+            from: accounts[0],
+            gasPrice: 10000000000,
+            gasLimit: "0x7a1200",
+        }, function (e, contract) {
+            console.log("wwwwww", contract);
+            console.log("error", e);
+            if (e) {
+                reject(e)
+            }
+        }).on('receipt', function (receipt) {
+            console.log("wxl -- receipt", receipt)
+            resolve(receipt)
+        })
+    })
+}
 
 export async function mintNft(toAddress, contractAddress, tokenId, name, uriHash) {
     try {
