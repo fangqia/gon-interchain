@@ -40,7 +40,7 @@ import { getEvmAddress } from "/src/keplr/uptick/wallet.js"
 // import { issueDenomAndMint } from "/src/keplr/iris/wallet"
 import {
     abi, bytecode
-} from "@/metaMask/evm/artifact/Uptick721.json";
+} from "@/metaMask/evm/artifact/ERC721Uptick.json";
 const Web3 = require('web3');
 
 export default {
@@ -99,7 +99,7 @@ export default {
             let result = await uploadJsonData(metaParams)
             console.log(result)
             // https://ipfs.upticknft.com/ipfs/QmR55vt4EVdtKyjHuepUgytGiVwTBPnVupDrnJx5gE38Di
-            return "https://ipfs.upticknft.com/ipfs/" + result.data.data
+            return result.data.data
         },
         async requestCreateSuccess(txResult) {
             var params = {}
@@ -137,15 +137,16 @@ export default {
                 console.log(this.nameValue)
                 this.isShowLoading = true
 
-                let uri = await this.getMetaDataJson()
-                this.metadataUrl = uri
+                let uriHash = await this.getMetaDataJson()
+                this.metadataUrl = uriHash
 
                 this.deployContract().then(async receipt => {
                     console.log(receipt);
                     let contractAddress = receipt.contractAddress
                     let tokenId = getTokenId()
                     let toAddress = getEvmAddress(this.sender)
-                    let txResult = await mintNft(toAddress, contractAddress, tokenId, uri)
+                    // toAddress, contractAddress, tokenId, name, uriHash
+                    let txResult = await mintNft(toAddress, contractAddress, tokenId, this.nameValue, uriHash)
                     console.log(txResult)
                     await this.requestCreateSuccess(txResult)
                     debugger
@@ -175,7 +176,7 @@ export default {
             console.log("wxl --- ddddd")
             let web3, accounts;
             web3 = new Web3(window.ethereum);
-
+            debugger
             let proofContract = new web3.eth.Contract(abi)
             accounts = await web3.eth.getAccounts();
 
@@ -184,7 +185,14 @@ export default {
                     data: bytecode,
                     arguments: [
                         this.nameValue,
-                        ''
+                        "",
+                        "",
+                        "",
+                        "",
+                        false,
+                        "",
+                        false,
+                        "",
                     ],
                 }).send({
                     from: accounts[0],

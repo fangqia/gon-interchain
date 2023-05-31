@@ -5,7 +5,7 @@ import {
 
 import {
     abi
-} from "../artifact/Uptick721.json";
+} from "../artifact/ERC721Uptick.json";
 
 const base = require('./base');
 
@@ -22,7 +22,7 @@ const base = require('./base');
 //     }
 // }
 
-export async function mintNft(toAddress, contractAddress, tokenId, uri) {
+export async function mintNft(toAddress, contractAddress, tokenId, name, uriHash) {
     try {
         const account = await base.getAccounts();
         let address = await account.getAddress();
@@ -38,11 +38,13 @@ export async function mintNft(toAddress, contractAddress, tokenId, uri) {
         }
         let gasSetting = await base.getGasPriceAndGasLimit();
         console.log("gasSetting", gasSetting);
-        let result = await contract.mintByCreatorFee(
+        let result = await contract.mintEnhance(
             toAddress,
             tokenId,
-            uri,//baseurl
-            "0",//mintByCreatorFee
+            name,
+            "https://ipfs.upticknft.com/ipfs/" + uriHash,//baseurl
+            "",//data
+            uriHash,
             { gasPrice: gasSetting.gasPrice, gasLimit: gasSetting.gasLimit }
         );
         console.log("result", result);
@@ -51,7 +53,7 @@ export async function mintNft(toAddress, contractAddress, tokenId, uri) {
             "address": toAddress,
             "contractAddress": contractAddress,
             "tokenId": tokenId,
-            "uri": uri,
+            "uri": "https://ipfs.upticknft.com/ipfs/" + uriHash,
             "hash": result.hash,
             "chainId": chainId
         };
