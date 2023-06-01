@@ -71,8 +71,8 @@ export default {
     background-color: green;
     background-color: #ed0091;
     border-radius: 5px;
-    border: solid 2px #ea0091;
-    opacity: 0.8;
+    border: solid 3px #ea0091;
+    // opacity: 0.8;
   }
 
   .mainImg:hover {

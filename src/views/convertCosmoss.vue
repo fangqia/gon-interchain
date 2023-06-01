@@ -3,7 +3,7 @@
         <div class="create d-flex flex-row justify-space-center align-center">
             <img class="image" :src="NFTInfo.imgUrl">
         </div>
-        <div style="height:150px; overflow: scroll; width: 390px">
+        <div style="height:100px; overflow: scroll; width: 390px">
             <div class="name" style="padding: 10px;">
                 {{ NFTInfo.name }}
             </div>
