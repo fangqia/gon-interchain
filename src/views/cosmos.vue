@@ -80,7 +80,7 @@ export default {
     }
 
     // 获取列表
-    await this.getMyList("origin_1170-1");
+    await this.getMyList("1170");
   },
   methods: {
     disconnect() {
@@ -118,7 +118,7 @@ export default {
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
         owner:
-          selectChain == "origin_1170-1"
+          selectChain == "1170"
             ? this.$store.state.UptickAddress
             : this.$store.state.IrisAddress,
         chainType: selectChain,

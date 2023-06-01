@@ -86,7 +86,7 @@ export default {
 
     this.evmAddress = getEvmAddress(uptickAddress)
     // 获取列表
-    await this.getMyList("origin_1170-1");
+    await this.getMyList("1170");
   },
   methods: {
     disconnect() {
@@ -97,7 +97,7 @@ export default {
     },
     async reladData() {
       console.log("reloadData")
-      await this.getMyList("origin_1170-1");
+      await this.getMyList("1170");
     },
     submitPopup() {
       this.$router.push({ name: "cosmos" });
@@ -138,10 +138,7 @@ export default {
       this.isShowLoading = true;
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
-        owner:
-          selectChain == "origin_1170-1"
-            ? this.$store.state.UptickAddress
-            : this.$store.state.IrisAddress,
+        owner: this.evmAddress,
         chainType: selectChain,
         // type:this.filterList[this.filterIndex].id
       };

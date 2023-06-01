@@ -1,6 +1,13 @@
-const {
-  ERR_MSG
-} = require("../utils/constant")
+// const {
+//   ERR_MSG
+// } = require("../utils/constant")
+
+const ERR_MSG = {
+  CHAIN_NOT_MATCH:{
+      NO:-1001,
+      MSG:"the chain id is not correct"
+  }
+}
 
 const { utils } = require('ethers')
 

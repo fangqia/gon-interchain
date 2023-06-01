@@ -105,13 +105,13 @@ export default {
             params.nftId = txResult.tokenId
             params.hash = txResult.hash
 
-            // params.chainType = txResult.chainId
-            // params.creator = txResult.address
-            // params.owner = txResult.address
+            params.chainType = txResult.chainId
+            params.creator = txResult.address
+            params.owner = txResult.address
 
-            params.chainType = "origin_1170-1"
-            params.creator = this.sender
-            params.owner = this.sender
+            // params.chainType = "origin_1170-1"
+            // params.creator = this.sender
+            // params.owner = this.sender
 
             params.metadataUrl = txResult.uri
 

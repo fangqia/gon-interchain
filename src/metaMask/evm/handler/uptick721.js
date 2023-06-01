@@ -28,10 +28,10 @@ export async function deployContract(name) {
     console.log("wxl --- ddddd")
     let web3, accounts;
     web3 = new Web3(window.ethereum);
-    debugger
     let proofContract = new web3.eth.Contract(abi)
+    
     accounts = await web3.eth.getAccounts();
-debugger
+
     return new Promise((resolve, reject) => {
         proofContract.deploy({
             data: bytecode,

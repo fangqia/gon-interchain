@@ -17,8 +17,8 @@ import {
   initWallet,
 } from "../../keplr/index";
 
-// import { getMatamaskWeb3 } from "../../utils/getAccount";
 import { wallet as evmWallet } from "@/metaMask";
+import { getMatamaskWeb3 } from "@/metaMask/wallet";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -44,7 +44,7 @@ export default {
 
       // Iris Address
       let account = await getkeplrIrisAddress();
-      // let evmAccount = await getMatamaskWeb3();
+      let evmAccount = await getMatamaskWeb3();
       debugger
       this.$store.commit("SET_DID", account.toLowerCase());
       // uptick Address
