@@ -46,7 +46,7 @@
 import { getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
 import { keplrKeystoreChange } from "/src/keplr/index";
-import { requestTranserNFT } from "/src/api/home"
+import { requestConvertCosmosNFT2ERC } from "/src/api/home"
 import { convertCosmosNFT2ERC, uptick2Iris } from "/src/keplr/uptick/wallet"
 
 export default {
@@ -62,7 +62,6 @@ export default {
             isShowLoading: false,
             sender: '',
         }
-
     },
     filters: {
 
@@ -93,14 +92,9 @@ export default {
             let nftId = this.NFTInfo.nftId
             this.isShowLoading = true
             try {
-                let result = await convertCosmosNFT2ERC(denomId, nftId)
-                console.log(result)
-
-                let contractAddress = result[0].events[0].attributes[4].value
-                let tokenId = result[0].events[0].attributes[5].value
-                console.log("contractAddress, tokenId", contractAddress, tokenId)
-                //调用接口同步数据
-                // XXXXXXXXXXXXXXX
+                let txResult = await convertCosmosNFT2ERC(denomId, nftId)
+                let requestConvert =  this.requestConvertSuccess(txResult)
+                console.log(requestConvert)
                 this.isShowLoading = false
                 this.$toast("success", "Convert Success")
                 this.$emit('withdraw:showpop');
@@ -109,8 +103,31 @@ export default {
                 this.isShowLoading = false
                 this.$toast("error", error)
             }
+        },
 
+        async requestConvertSuccess(txResult) {
+            var params = {}
 
+            params.evmNftAddress = txResult.evmNftAddress
+            params.evmNftId = txResult.evmNftId
+            params.evmOwner = txResult.evmOwner
+
+            let updateNftDto = {}
+            updateNftDto.nftAddress = txResult.nftAddress
+            updateNftDto.nftId = txResult.nftId
+            updateNftDto.owner = txResult.owner
+ 
+            console.log(params)
+            console.log(updateNftDto)
+ 
+            let result = await requestConvertCosmosNFT2ERC(params, updateNftDto)
+            console.log(result)
+            if (result.status == 201 || result.status == 200) {
+                return result.data.data
+            } else {
+                // flag = false;
+                throw new Error("Request Creeate Falied");
+            }
         },
         async crossButton() {
             console.log(this.NFTInfo)
@@ -126,8 +143,8 @@ export default {
                 params.nftAddress = denomId
                 params.nftId = nftId
                 params.status = 1
-                let transferResult = await requestTranserNFT(params)
-                console.log(transferResult)
+                // let transferResult = await requestTranserNFT(params)
+                // console.log(transferResult)
 
                 this.isShowLoading = false
                 this.$toast("success", "Convert Success")

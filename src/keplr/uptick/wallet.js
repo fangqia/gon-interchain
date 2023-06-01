@@ -54,9 +54,21 @@ export async function convertCosmosNFT2ERC(denomId, nftId) {
         console.log(JSON.parse(result.rawLog))
         debugger
         if (result.code == 0) {
+
             const logInfo = JSON.parse(result.rawLog)
 
-            return logInfo;
+            let contractAddress = logInfo[0].events[0].attributes[4].value
+            let tokenId = logInfo[0].events[0].attributes[5].value
+            console.log("contractAddress, tokenId", contractAddress, tokenId)
+            
+            return {
+                "evmNftAddress": contractAddress,
+                "evmNftId": tokenId,
+                "evmOwner": evmAddress,
+                "nftAddress": denomId,
+                "nftId": nftId,
+                "owner": uptickAddress
+            };
         } else {
             throw new Error(result.rawLog)
         }
@@ -98,12 +110,21 @@ export async function convertERC2CosmosNFT(contractAddress, tokenId) {
 
         const result = await sendMsgsTx(uptickAddress, [msg], 1000000, "0x1234");
         console.log(result)
-        console.log(JSON.parse(result.rawLog))
-        debugger
+
         if (result.code == 0) {
             const logInfo = JSON.parse(result.rawLog)
+            let denomId = logInfo[0].events[0].attributes[2].value
+            let nftId = logInfo[0].events[0].attributes[3].value
+            console.log("denomId, nftId", denomId, nftId)
 
-            return logInfo;
+            return {
+                "uptickNftAddress": denomId,
+                "uptickNftId": nftId,
+                "uptickOwner": uptickAddress,
+                "nftAddress": contractAddress,
+                "nftId": tokenId,
+                "owner": evmAddress
+            };
         } else {
             throw new Error(result.rawLog)
         }

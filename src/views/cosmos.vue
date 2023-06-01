@@ -64,7 +64,8 @@ export default {
       cardClass: "listitem",
       popupVisible: false,
       uptickAddress: "",
-      title: ""
+      title: "",
+      chainType: "origin_1170-1"
     }
 
   },
@@ -80,7 +81,7 @@ export default {
     }
 
     // 获取列表
-    await this.getMyList("1170");
+    await this.getMyList();
   },
   methods: {
     disconnect() {
@@ -99,7 +100,7 @@ export default {
     },
     async reladData() {
       console.log("reloadData")
-      await this.getMyList("origin_1170-1");
+      await this.getMyList();
     },
     submitPopup() {
       this.$router.push({ name: "evm" });
@@ -116,13 +117,8 @@ export default {
       console.log(selectChain)
       this.isShowLoading = true;
       let params = {
-        //this.$store.state.uptickAddress,this.$store.state.IrisAddress
-        owner:
-          selectChain == "1170"
-            ? this.$store.state.UptickAddress
-            : this.$store.state.IrisAddress,
-        chainType: selectChain,
-        // type:this.filterList[this.filterIndex].id
+        owner: this.$store.state.UptickAddress,
+        chainType: this.chainType,
       };
 
       let listInfo = await getMyCardList(
@@ -134,7 +130,7 @@ export default {
       if (this.list.length != 0) {
         this.selectItem = this.list[0]
       } else {
-        this.$router.push({ name: "evm" });
+        // this.$router.push({ name: "evm" });
       }
     },
     loadeImageUrl(hash) {

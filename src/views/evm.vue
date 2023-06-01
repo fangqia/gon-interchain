@@ -68,7 +68,8 @@ export default {
       isShowCreate: true,
       selectItem: {},
       popupVisible: false,
-      evmAddress: ""
+      evmAddress: "",
+      chainType: "1170"
     }
 
   },
@@ -86,7 +87,7 @@ export default {
 
     this.evmAddress = getEvmAddress(uptickAddress)
     // 获取列表
-    await this.getMyList("1170");
+    await this.getMyList();
   },
   methods: {
     disconnect() {
@@ -97,7 +98,7 @@ export default {
     },
     async reladData() {
       console.log("reloadData")
-      await this.getMyList("1170");
+      await this.getMyList();
     },
     submitPopup() {
       this.$router.push({ name: "cosmos" });
@@ -139,7 +140,7 @@ export default {
       let params = {
         //this.$store.state.uptickAddress,this.$store.state.IrisAddress
         owner: this.evmAddress,
-        chainType: selectChain,
+        chainType: this.chainType,
         // type:this.filterList[this.filterIndex].id
       };
 

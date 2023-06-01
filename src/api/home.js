@@ -57,6 +57,20 @@ export function requestTranserNFT(params) {
     )
 }
 
+// 转化NFT cosmos -> evm 
+export function requestConvertCosmosNFT2ERC(params,bodyParams) {
+    return service.post('/gonapi/nft/cosmosConvertEVM?evmOwner='+params.evmOwner + '&evmNftAddress=' +params.evmNftAddress+ '&evmNftId=' +params.evmNftId, 
+        transObjToParamStr(bodyParams)
+    )
+}
+
+// 转化NFT evm -> cosmos 
+export function requestConvertERC2CosmosNFT(params,bodyParams) {
+    return service.post('/gonapi/nft/evmConvertCosmos?uptickOwner='+params.uptickOwner + '&uptickNftAddress=' +params.uptickNftAddress+ '&uptickNftId=' +params.uptickNftId, 
+        transObjToParamStr(bodyParams)
+    )
+}
+
 
 function transObjToParamStr(object) {
    

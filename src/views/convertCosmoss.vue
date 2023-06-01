@@ -41,7 +41,7 @@
 import { getNftImg } from "/src/api/image"
 import Loading from "@/components/loading.vue";
 import { keplrKeystoreChange } from "/src/keplr/index";
-import { requestCreateNFT } from "/src/api/home"
+import { requestConvertERC2CosmosNFT } from "/src/api/home"
 import { convertERC2CosmosNFT } from "/src/keplr/uptick/wallet"
 
 export default {
@@ -79,14 +79,9 @@ export default {
             let tokenId = this.NFTInfo.nftId
             this.isShowLoading = true
             try {
-                let result = await convertERC2CosmosNFT(contractAddress, tokenId)
-                console.log(result)
-
-                let denomId = result[0].events[0].attributes[2].value
-                let nftId = result[0].events[0].attributes[3].value
-                console.log("denomId, nftId", denomId, nftId)
-                //调用接口同步数据
-                // XXXXXXXXXXXXXXX
+                let txResult = await convertERC2CosmosNFT(contractAddress, tokenId)
+                let requestConvert =  this.requestConvertSuccess(txResult)
+                console.log(requestConvert)
                 this.isShowLoading = false
                 this.$toast("success", "Convert Success")
                 this.$emit('cross:showpop');
@@ -94,6 +89,31 @@ export default {
             } catch (error) {
                 this.isShowLoading = false
                 this.$toast("error", error)
+            }
+        },
+
+        async requestConvertSuccess(txResult) {
+            var params = {}
+
+            params.uptickNftAddress = txResult.uptickNftAddress
+            params.uptickNftId = txResult.uptickNftId
+            params.uptickOwner = txResult.uptickOwner
+
+            let updateNftDto = {}
+            updateNftDto.nftAddress = txResult.nftAddress
+            updateNftDto.nftId = txResult.nftId
+            updateNftDto.owner = txResult.owner
+ 
+            console.log(params)
+            console.log(updateNftDto)
+ 
+            let result = await requestConvertERC2CosmosNFT(params,updateNftDto)
+            console.log(result)
+            if (result.status == 201 || result.status == 200) {
+                return result.data.data
+            } else {
+                // flag = false;
+                throw new Error("Request Creeate Falied");
             }
         },
 
