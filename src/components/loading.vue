@@ -30,7 +30,7 @@
       .load {
          width: 100px;
          height: 100px;
-         background-color: #fb599b;
+         background-color: #1e0826;
          border-radius: 10px;
          position: absolute;
          top: 50%;

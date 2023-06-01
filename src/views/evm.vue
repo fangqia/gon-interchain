@@ -67,7 +67,7 @@ export default {
       isShowLoading: false,
       isShowCreate: true,
       selectItem: {},
-      popupVisible: false,
+      popupVisible: true,
       evmAddress: "",
       chainType: "1170"
     }

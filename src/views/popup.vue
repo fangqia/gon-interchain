@@ -93,8 +93,8 @@ export default {
   background-color: #fff;
   z-index: 1000;
 
-  width: 451px;
-  height: 196px;
+  max-width: 470px;
+  // height: 196px;
   background-color: #ffffff;
   border-radius: 5px;
 
@@ -110,11 +110,11 @@ export default {
     color: #000000;
     text-align: center;
     // background-color: green;
-    padding-top: 50px;
-    padding-bottom: 20px;
-    padding-left: 30px;
-    padding-right: 30px;
-    text-align: left;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    text-align: center;
 
   }
 
@@ -123,8 +123,9 @@ export default {
     justify-content: space-between;
 
     height: 40px;
-    padding-left: 30px;
-    padding-right: 30px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 45px;
 
     .cancellationBtn {
       width: 160px;
