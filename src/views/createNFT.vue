@@ -1,8 +1,8 @@
 <template>
     <div class="d-flex flex-column justify-space-center align-center">
         <div class="create d-flex flex-row justify-space-center align-center">
-            <div class="addButton">
-                <input type="file" accept="image/*" ref="fileInput" @change="uploadFile">
+            <div class="addButton" @click="chooseFile">
+                <input type="file" accept="image/*" ref="fileInput" style="display: none;" @change="uploadFile">
                 <img v-if="uploadedImageHash == ''" class="addImage"
                     :src="loadeImageUrl('QmVPw5QsFkLQKX4ysErUACT4yg5Rf65Z4qZKirJ9bwKLFg')">
                 <img class="uploadImage" :src="loadeImageUrl(uploadedImageHash)" v-if="uploadedImageHash != ''">
@@ -13,14 +13,15 @@
             <div style="display: flex; justify-content: end;">
                 <div class="title" style="text-align: right;">{{ nameValue.length }}/80</div>
             </div>
-            <input class="textInput" type="text" v-model="nameValue" maxlength="80">
+            <input class="textInput" type="text" placeholder="NFT Name" v-model="nameValue" maxlength="80">
         </div>
         <div class="description">
             <div class="title" style="text-align: right;">{{ descriptionValue.length }}/800</div>
-            <textarea class="descriptionText" v-model="descriptionValue" maxlength="800"></textarea>
+            <textarea class="descriptionText" placeholder="Description" v-model="descriptionValue"
+                maxlength="800"></textarea>
         </div>
         <div style="width: 90%;">
-            <button class="subBtn" @click="submitButton" :disabled="isInputEmpty">Submit</button>
+            <button class="subBtn" @click="submitButton" :disabled="isInputEmpty">Create NFT</button>
         </div>
         <loading :isShowLoading="isShowLoading"></loading>
         <uComponents ref="ucom"></uComponents>
@@ -72,10 +73,10 @@ export default {
         debugger
         window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
         // debugger
-        const randomInt = new Date().getTime() % 100000 + 1;
-        this.nameValue = "test_evm_" + String(randomInt)
-        this.descriptionValue = "test_evm_" + String(randomInt)
-        this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
+        // const randomInt = new Date().getTime() % 100000 + 1;
+        // this.nameValue = "test_evm_" + String(randomInt)
+        // this.descriptionValue = "test_evm_" + String(randomInt)
+        // this.uploadedImageHash = 'QmTpb65U1hw46ieCwVq1MquCrwYDpwsPZdwwpo9jB8TAK2'
     },
     watch: {
         uploadedImageHash: 'checkInput',
@@ -209,6 +210,7 @@ export default {
 
 </script>
 <style lang='scss' scoped>
+
 .title {
     text-align: center;
     width: 100%;
@@ -272,6 +274,10 @@ export default {
     .textInput {
         // width: 100%;
         height: 44px;
+        font-family: AvenirNext-Regular;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
         padding-left: 10px;
         padding-right: 10px;
         background-image: linear-gradient(#e8daff,
@@ -296,7 +302,10 @@ export default {
         resize: none;
         padding-left: 10px;
         padding-right: 10px;
-
+        font-family: AvenirNext-Regular;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
         /* width: 325px; */
         width: 100%;
         height: 119px;

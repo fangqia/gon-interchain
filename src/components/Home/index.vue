@@ -102,7 +102,7 @@ export default {
     height: 61px;
     background-color: #ed0091;
     border-radius: 29px;
-    font-family: "MuseoModerno-SemiBold";
+    font-family: "AvenirNext-Bold";
     font-size: 22px;
     font-weight: normal;
     font-stretch: normal;

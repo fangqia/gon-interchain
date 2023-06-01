@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="right">
-        <CosmosCross :NFTInfo="selectItem" @withdraw:showpop="withdrawShowPop" @crossIris:showpop="crossIrisShowPop">
+        <CosmosCross v-if="list.length != 0" :NFTInfo="selectItem" @withdraw:showpop="withdrawShowPop" @crossIris:showpop="crossIrisShowPop">
         </CosmosCross>
       </div>
       <popup :visible.sync="popupVisible" :title="title" @reload:data="reladData" @submit:popup="submitPopup">
@@ -48,7 +48,7 @@
 import { getNftImg } from "/src/api/image"
 import CosmosCross from "./cosmosCorss";
 import Card from "../components/workCard/card.vue";
-import { getMyCardList } from "@/api/home";
+import { getMyCardList, updateUser } from "@/api/home";
 import Popup from './popup';
 
 export default {
@@ -81,6 +81,11 @@ export default {
     }
 
     // 获取列表
+    let params = {
+      owner: this.$store.state.UptickAddress,
+      chainType: this.chainType,
+    };
+    let result = await updateUser(params)
     await this.getMyList();
   },
   methods: {
@@ -100,6 +105,15 @@ export default {
     },
     async reladData() {
       console.log("reloadData")
+
+      let params = {
+        owner: this.$store.state.UptickAddress,
+        chainType: this.chainType,
+      };
+      let result = await updateUser(params)
+      console.log(result)
+
+
       await this.getMyList();
     },
     submitPopup() {
@@ -129,8 +143,6 @@ export default {
       this.list = listInfo.data.list;
       if (this.list.length != 0) {
         this.selectItem = this.list[0]
-      } else {
-        // this.$router.push({ name: "evm" });
       }
     },
     loadeImageUrl(hash) {

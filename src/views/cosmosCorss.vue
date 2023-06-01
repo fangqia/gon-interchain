@@ -138,16 +138,16 @@ export default {
             try {
                 let result = await uptick2Iris(denomId, nftId)
                 console.log(result)
-                //链上转送完成，调用接口
-                let params = {}
-                params.nftAddress = denomId
-                params.nftId = nftId
-                params.status = 1
-                // let transferResult = await requestTranserNFT(params)
-                // console.log(transferResult)
+                // //链上转送完成，调用接口
+                // let params = {}
+                // params.nftAddress = denomId
+                // params.nftId = nftId
+                // params.status = 1
+                // // let transferResult = await requestTranserNFT(params)
+                // // console.log(transferResult)
 
                 this.isShowLoading = false
-                this.$toast("success", "Convert Success")
+                this.$toast("success", "Cross Success")
                 this.$emit('crossIris:showpop');
                 debugger
             } catch (error) {

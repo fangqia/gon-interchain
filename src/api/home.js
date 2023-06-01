@@ -57,6 +57,10 @@ export function requestTranserNFT(params) {
     )
 }
 
+export function updateUser(params) {
+    return service.get('/gonapi/nft/updateUser?'+transObjToParamStr(params))
+}
+
 // 转化NFT cosmos -> evm 
 export function requestConvertCosmosNFT2ERC(params,bodyParams) {
     return service.post('/gonapi/nft/cosmosConvertEVM?evmOwner='+params.evmOwner + '&evmNftAddress=' +params.evmNftAddress+ '&evmNftId=' +params.evmNftId, 

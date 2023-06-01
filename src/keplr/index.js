@@ -87,7 +87,8 @@ if (!window.getOfflineSigner || !window.keplr) {
            await window.keplr.experimentalSuggestChain({
             "chainId": "origin_1170-1",
             "chainName": "Uptick Origin",
-            "rpc": "https://rpc.origin.uptick.network",
+            // "rpc": "https://rpc.origin.uptick.network",
+            "rpc": "http://54.179.233.10:26657",
             "rest": "https://rest.origin.uptick.network",
             "stakeCurrency": {
               "coinDenom": "UOC",
