@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex flex-column justify-space-center align-center">
         <div class="create d-flex flex-row justify-space-center align-center">
-            <div class="addButton" @click="chooseFile">
+            <div class="addButton" @click="chooseFile" v-on:dragover.prevent v-on:drop="onDrop">
                 <input type="file" accept="image/*" ref="fileInput" style="display: none;" @change="uploadFile">
                 <img v-if="uploadedImageHash == ''" class="addImage"
                     :src="loadeImageUrl('QmVPw5QsFkLQKX4ysErUACT4yg5Rf65Z4qZKirJ9bwKLFg')">
@@ -67,7 +67,6 @@ export default {
     async mounted() {
 
         this.sender = this.$store.state.UptickAddress
-        // this.sender = getEvmAddress(this.$store.state.UptickAddress)
 
         console.log(this.sender)
         debugger
@@ -84,6 +83,7 @@ export default {
         descriptionValue: 'checkInput',
     },
     methods: {
+
         keplrKeystoreChange() {
             keplrKeystoreChange();
         },
@@ -173,6 +173,12 @@ export default {
                 });
             }
         },
+        onDrop(event) {
+            debugger
+            event.preventDefault(); // 阻止浏览器默认的拖动行为
+            const file = event.dataTransfer.files[0]; // 获取上传的文件
+            this.requestUploadFile(file)
+        },
         chooseFile() {
             this.$refs.fileInput.click()
         },
@@ -181,6 +187,9 @@ export default {
             const file = event.target.files[0]
             console.log(file)
             if (!file) { return }
+            this.requestUploadFile(file)
+        },
+        async requestUploadFile(file) {
             const formData = new FormData()
             formData.append('file', file)
             this.isShowLoading = true
@@ -210,7 +219,6 @@ export default {
 
 </script>
 <style lang='scss' scoped>
-
 .title {
     text-align: center;
     width: 100%;
