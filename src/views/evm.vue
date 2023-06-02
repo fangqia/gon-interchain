@@ -52,7 +52,7 @@ import { getNftImg } from "/src/api/image"
 import CreateNFT from "./createNFT";
 import ConvertCosmoss from "./convertCosmoss";
 import Card from "../components/workCard/card.vue";
-import { getMyCardList } from "@/api/home";
+import { getMyCardList, updateUser } from "@/api/home";
 import Popup from './popup';
 import { getEvmAddress } from "/src/keplr/uptick/wallet"
 
@@ -85,6 +85,14 @@ export default {
       return
     }
 
+    // 获取列表
+    let params = {
+      owner: this.$store.state.UptickAddress,
+      chainType: this.chainType,
+    };
+    let result = await updateUser(params)
+    console.log(result)
+
     this.evmAddress = getEvmAddress(uptickAddress)
     // 获取列表
     await this.getMyList();
@@ -115,13 +123,10 @@ export default {
     switchButton() {
       // this.$router.push({ name: "chainCross" });
       this.$router.push({ name: "cosmos" });
-
-    },
-    crossButton() {
-
     },
     crossButtonRecord() {
-
+      let url = "http://nftland.org/?address=" + this.$store.state.UptickAddress
+      window.open(url, '_blank')
     },
 
     onClickItem(item) {
@@ -294,7 +299,7 @@ export default {
         padding: 10px;
       }
     }
- 
+
     .empty {
       height: 751px;
       display: flex;
@@ -310,10 +315,11 @@ export default {
     height: 100%;
     background-color: #1e0826;
   }
-/* 隐藏滚动条 */
-// ::-webkit-scrollbar {
-//   display: none;
-// }
- 
+
+  /* 隐藏滚动条 */
+  // ::-webkit-scrollbar {
+  //   display: none;
+  // }
+
 }
 </style>

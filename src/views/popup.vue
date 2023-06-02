@@ -132,7 +132,7 @@ export default {
       height: 40px;
       border-radius: 20px;
       border: solid 2px #ed0091;
-
+      margin-right: 10px;
       font-family: AvenirNext-Bold;
       font-size: 15px;
       font-weight: normal;
@@ -146,6 +146,7 @@ export default {
       height: 40px;
       background-color: #ed0091;
       border-radius: 20px;
+      margin-left: 10px;
 
       font-family: AvenirNext-Bold;
       font-size: 15px;

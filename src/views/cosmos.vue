@@ -86,6 +86,7 @@ export default {
       chainType: this.chainType,
     };
     let result = await updateUser(params)
+    console.log(result)
     await this.getMyList();
   },
   methods: {

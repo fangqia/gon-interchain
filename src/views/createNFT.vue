@@ -4,7 +4,7 @@
             <div class="addButton" @click="chooseFile" v-on:dragover.prevent v-on:drop="onDrop">
                 <input type="file" accept="image/*" ref="fileInput" style="display: none;" @change="uploadFile">
                 <img v-if="uploadedImageHash == ''" class="addImage"
-                    :src="loadeImageUrl('QmVPw5QsFkLQKX4ysErUACT4yg5Rf65Z4qZKirJ9bwKLFg')">
+                    :src="loadeImageUrl('QmVCQFds8badbodqRDJ7d2H5pg7gbMutmM5ShMb9FNppWH')">
                 <img class="uploadImage" :src="loadeImageUrl(uploadedImageHash)" v-if="uploadedImageHash != ''">
             </div>
 
@@ -207,10 +207,11 @@ export default {
             return getNftImg(hash)
         },
         checkInput() {
+            debugger
             this.isInputEmpty =
                 this.nameValue.trim() === '' ||
                 this.descriptionValue.trim() === '' ||
-                this.uploadedImageHash.trim() === 'QmPuuSpLdzV4Hz4aJtPUVzxsgnLKPYiqKdYtdTGyLF6Pn5'
+                this.uploadedImageHash.trim() === ''
             console.log(this.isInputEmpty)
         },
     },
