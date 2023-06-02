@@ -3,7 +3,7 @@
         <div class="create d-flex flex-row justify-space-center align-center">
             <img class="image" :src="NFTInfo.imgUrl">
         </div>
-        <div style="height:100px; overflow: scroll; width: 390px">
+        <div class="nftinfo">
             <div class="name" style="padding: 10px;">
                 {{ NFTInfo.name }}
             </div>
@@ -80,7 +80,7 @@ export default {
             this.isShowLoading = true
             try {
                 let txResult = await convertERC2CosmosNFT(contractAddress, tokenId)
-                let requestConvert =  this.requestConvertSuccess(txResult)
+                let requestConvert = this.requestConvertSuccess(txResult)
                 console.log(requestConvert)
                 this.isShowLoading = false
                 this.$toast("success", "Convert Success")
@@ -103,11 +103,11 @@ export default {
             updateNftDto.nftAddress = txResult.nftAddress
             updateNftDto.nftId = txResult.nftId
             updateNftDto.owner = txResult.owner
- 
+
             console.log(params)
             console.log(updateNftDto)
- 
-            let result = await requestConvertERC2CosmosNFT(params,updateNftDto)
+
+            let result = await requestConvertERC2CosmosNFT(params, updateNftDto)
             console.log(result)
             if (result.status == 201 || result.status == 200) {
                 return result.data.data
@@ -129,7 +129,7 @@ export default {
 .title {
     text-align: center;
     width: 100%;
-    font-family: "AmpleSoft-Bold" !important;
+    font-family: "AvenirNext-Bold" !important;
     font-size: 15px !important;
     font-weight: normal;
     font-stretch: normal;
@@ -154,8 +154,19 @@ export default {
     }
 }
 
+.nftinfo {
+    height: 100px;
+    overflow: auto;
+    width: 390px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
 .name {
-    font-family: AvenirNext-Bold;
+    font-family: "AvenirNext-Bold" !important;
     font-size: 15px;
     font-weight: normal;
     font-stretch: normal;
@@ -192,7 +203,7 @@ export default {
         width: 100%;
         // height: 86px;
         margin: 10px 0px 10px 0px;
-        font-family: AvenirNext-Bold;
+        font-family: "AvenirNext-Bold" !important;
         font-size: 13px;
         font-weight: normal;
         font-stretch: normal;
@@ -204,7 +215,7 @@ export default {
     .tips1 {
         width: 100%;
         margin: 10px 0px 10px 0px;
-        font-family: AvenirNext-Bold;
+        font-family: "AvenirNext-Bold" !important;
         font-size: 13px;
         font-weight: normal;
         letter-spacing: 0px;
@@ -250,7 +261,7 @@ export default {
     // margin-left: 15px;
     div {
         // width: 163px;
-        font-family: AvenirNext-Bold;
+        font-family: "AvenirNext-Bold" !important;
         font-size: 15px;
         font-weight: normal;
         font-stretch: normal;

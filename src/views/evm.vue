@@ -305,7 +305,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: "AmpleSoft" !important;
+      font-family: "AvenirNext-Regular" !important;
       color: #ffffff;
     }
   }
@@ -317,9 +317,9 @@ export default {
   }
 
   /* 隐藏滚动条 */
-  // ::-webkit-scrollbar {
-  //   display: none;
-  // }
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
 }
 </style>

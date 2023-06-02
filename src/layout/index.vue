@@ -63,6 +63,11 @@ export default {
     min-height: 550px;
 
 }
+
+
+::-webkit-scrollbar {
+    display: none;
+  }
 </style>
 
 

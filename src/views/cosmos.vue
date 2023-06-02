@@ -33,7 +33,8 @@
         </div>
       </div>
       <div class="right">
-        <CosmosCross v-if="list.length != 0" :NFTInfo="selectItem" @withdraw:showpop="withdrawShowPop" @crossIris:showpop="crossIrisShowPop">
+        <CosmosCross v-if="list.length != 0" :NFTInfo="selectItem" @withdraw:showpop="withdrawShowPop"
+          @crossIris:showpop="crossIrisShowPop">
         </CosmosCross>
       </div>
       <popup :visible.sync="popupVisible" :title="title" @reload:data="reladData" @submit:popup="submitPopup">
@@ -307,7 +308,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: "AmpleSoft" !important;
+      font-family: "AvenirNext-Regular" !important;
       color: #ffffff;
     }
   }
@@ -316,6 +317,11 @@ export default {
     width: 450px;
     height: 100%;
     background-color: #1e0826;
+  }
+
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 
 }

@@ -3,10 +3,13 @@
         <div class="create d-flex flex-row justify-space-center align-center">
             <img class="image" :src="NFTInfo.imgUrl">
         </div>
-        <div style="height:100px; overflow: scroll; width: 390px;">
+        <div class="nftinfo">
             <div class="name" style="padding: 10px;">
                 {{ NFTInfo.name }}
             </div>
+            <!-- <div class="description">
+                {{ NFTInfo.description }}
+            </div> -->
             <div class="description">
                 {{ NFTInfo.description }}
             </div>
@@ -93,7 +96,7 @@ export default {
             this.isShowLoading = true
             try {
                 let txResult = await convertCosmosNFT2ERC(denomId, nftId)
-                let requestConvert =  this.requestConvertSuccess(txResult)
+                let requestConvert = this.requestConvertSuccess(txResult)
                 console.log(requestConvert)
                 this.isShowLoading = false
                 this.$toast("success", "Convert Success")
@@ -116,10 +119,10 @@ export default {
             updateNftDto.nftAddress = txResult.nftAddress
             updateNftDto.nftId = txResult.nftId
             updateNftDto.owner = txResult.owner
- 
+
             console.log(params)
             console.log(updateNftDto)
- 
+
             let result = await requestConvertCosmosNFT2ERC(params, updateNftDto)
             console.log(result)
             if (result.status == 201 || result.status == 200) {
@@ -192,9 +195,21 @@ export default {
     }
 }
 
+
+.nftinfo {
+    height: 100px;
+    overflow: auto;
+    width: 390px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
 .name {
     // width: 90%;
-    font-family: AvenirNext-Bold;
+    font-family: "AvenirNext-Bold" !important;
     font-size: 15px;
     font-weight: normal;
     font-stretch: normal;
@@ -207,7 +222,7 @@ export default {
 
 
 .description {
-    font-family: AvenirNext-Regular;
+    font-family: "AvenirNext-Regular" !important;
     font-size: 12px;
     font-weight: normal;
     font-stretch: normal;
@@ -221,14 +236,14 @@ export default {
 
     .line {
         margin: 10px 0px 10px 0px;
-        width: 96%;
+        width: 100%;
         height: 1px;
         border: solid 1px #8c055e;
     }
 
     .tipsTitle {
         width: 100%;
-        font-family: AvenirNext-Bold;
+        font-family: "AvenirNext-Bold" !important;
         font-size: 13px;
         font-weight: normal;
         font-stretch: normal;
@@ -238,7 +253,7 @@ export default {
 
     .tips1 {
         width: 100%;
-        font-family: AvenirNext-Regular;
+        font-family: "AvenirNext-Regular" !important;
         font-size: 13px;
         font-weight: normal;
         letter-spacing: 0px;
@@ -250,7 +265,7 @@ export default {
 
     .tips2 {
         width: 100%;
-        font-family: AvenirNext-Bold;
+        font-family: "AvenirNext-Bold" !important;
         font-size: 13px;
         font-weight: normal;
         letter-spacing: 0px;
@@ -279,7 +294,7 @@ export default {
 
     div {
         width: 91px;
-        font-family: AvenirNext-Bold;
+        font-family: "AvenirNext-Bold" !important;
         font-size: 15px;
         font-weight: normal;
         font-stretch: normal;
@@ -304,12 +319,11 @@ export default {
     // margin-left: 15px;
     div {
         width: 163px;
-        font-family: AvenirNext-Bold;
+        font-family: "AvenirNext-Bold" !important;
         font-size: 15px;
         font-weight: normal;
         font-stretch: normal;
         letter-spacing: 0px;
         color: #ffffff;
     }
-}
-</style>
+}</style>

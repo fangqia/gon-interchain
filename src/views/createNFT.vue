@@ -223,7 +223,7 @@ export default {
 .title {
     text-align: center;
     width: 100%;
-    font-family: "AmpleSoft-Bold" !important;
+	font-family: "AvenirNext-Regular" !important;
     font-size: 15px !important;
     font-weight: normal;
     font-stretch: normal;
