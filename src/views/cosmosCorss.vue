@@ -150,8 +150,10 @@ export default {
                 // // console.log(transferResult)
 
                 this.isShowLoading = false
-                this.$toast("success", "Cross Success")
-                this.$emit('crossIris:showpop');
+                this.$toast("success", "Cross chain to IRIS completed").then(()=>{
+                       this.$emit('crossIris');
+                })
+              
                 debugger
             } catch (error) {
                 this.isShowLoading = false

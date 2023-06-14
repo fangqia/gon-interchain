@@ -34,7 +34,7 @@
       </div>
       <div class="right">
         <CosmosCross v-if="list.length != 0" :NFTInfo="selectItem" @withdraw:showpop="withdrawShowPop"
-          @crossIris:showpop="crossIrisShowPop">
+          @crossIris="crossIrisShowPop">
         </CosmosCross>
       </div>
       <popup :visible.sync="popupVisible" :title="title" @reload:data="reladData" @submit:popup="submitPopup">
@@ -101,9 +101,9 @@ export default {
       this.popupVisible = true
       this.title = "Cross chain conversion completed, switch to Uptick - EVM chain for cross chain operation"
     },
-    crossIrisShowPop() {
-      this.popupVisible = true
-      this.title = "Cross chain to IRIS completed"
+    async crossIrisShowPop() {
+      console.log("crossIrisShowPop");
+      await this.getMyList();
     },
     async reladData() {
       console.log("reloadData")
@@ -130,6 +130,7 @@ export default {
     },
     async getMyList(selectChain) {
       debugger
+      this.list = []
       console.log(selectChain)
       this.isShowLoading = true;
       let params = {
