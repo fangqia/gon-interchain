@@ -125,7 +125,7 @@ export default {
       this.$router.push({ name: "cosmos" });
     },
     crossButtonRecord() {
-      let url = "http://nftland.org/?address=" + this.$store.state.UptickAddress
+      let url = "https://explorer.gon.upticknft.app/?address=" + this.$store.state.UptickAddress
       window.open(url, '_blank')
     },
 
